@@ -46,7 +46,7 @@
         
         /* Header */
         header {
-            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('img/caasamento.png') no-repeat center center/cover;
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('img/casaamento.png') no-repeat center center/cover;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -525,20 +525,26 @@
             }
             
             .wedding-date {
-                font-size: 1.3rem;
+                font-size: 1rem;
             }
-            
-            .countdown-container {
-                padding: 1rem;
-            }
-            
-            .countdown-item {
-                min-width: 70px;
-            }
-            
-            .countdown-number {
-                font-size: 1.8rem;
-            }
+.countdown {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .countdown-item {
+        min-width: auto;
+        flex: 1;
+        margin: 0 0.2rem;
+    }
+
+    .countdown-number {
+        font-size: 1.4rem;
+    }
+
+    .countdown-label {
+        font-size: 0.75rem;
+    }
         }
     </style>
 </head>
