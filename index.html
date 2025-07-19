@@ -793,6 +793,9 @@
             <p class="copyright">© 2025 Letícia & Igor. Todos os direitos reservados.</p>
         </div>
     </footer>
+    <!-- Firebase SDK (descomente quando tiver as credenciais) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 <script>
         // Configuração da data do casamento
         const weddingDate = new Date('September 13, 2025 16:00:00').getTime();
@@ -879,15 +882,15 @@
         });
         
         // Firebase Configuration (exemplo - substitua com suas credenciais)
-        const firebaseConfig = {
-          apiKey: "AIzaSyCQLS4Xbeg-He7mB5_k9By_DMVQv0TGEnY",
-          authDomain: "casamento-f7872.firebaseapp.com",
-          projectId: "casamento-f7872",
-          storageBucket: "casamento-f7872.firebasestorage.app",
-          messagingSenderId: "33971082316",
-          appId: "1:33971082316:web:950ffc26c178783db790e9",
-          measurementId: "G-LSL4E2K21J"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyCQLS4Xbeg-He7mB5_k9By_DMVQv0TGEnY",
+  authDomain: "casamento-f7872.firebaseapp.com",
+  projectId: "casamento-f7872",
+  storageBucket: "casamento-f7872.firebasestorage.app",
+  messagingSenderId: "33971082316",
+  appId: "1:33971082316:web:950ffc26c178783db790e9",
+  measurementId: "G-LSL4E2K21J"
+};
         
         // Inicialização do Firebase
         firebase.initializeApp(firebaseConfig);
@@ -941,8 +944,5 @@
             });
         });
     </script>
-    <!-- Firebase SDK (descomente quando tiver as credenciais) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 </body>
 </html>
