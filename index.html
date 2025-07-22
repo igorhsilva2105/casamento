@@ -869,81 +869,45 @@
             }, 2000);
         });
         
-        // Formulários (simulação)
-        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Confirmação de presença enviada com sucesso! Obrigado!');
-            this.reset();
-        });
-        
-        document.getElementById('messageForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Mensagem enviada com sucesso! Obrigado pelas suas palavras carinhosas!');
-            this.reset();
-        });
-        
-        // Firebase Configuration (exemplo - substitua com suas credenciais)
-const firebaseConfig = {
-  apiKey: "AIzaSyCQLS4Xbeg-He7mB5_k9By_DMVQv0TGEnY",
-  authDomain: "casamento-f7872.firebaseapp.com",
-  projectId: "casamento-f7872",
-  storageBucket: "casamento-f7872.firebasestorage.app",
-  messagingSenderId: "33971082316",
-  appId: "1:33971082316:web:950ffc26c178783db790e9",
-  measurementId: "G-LSL4E2K21J"
-};
-        
-        // Inicialização do Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        
-        // Manipulação do formulário de confirmação de presença
-        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = this['name'].value;
-            const email = this['email'].value;
-            const guests = this['guests'].value;
-            const attending = this['attending'].value;
-            
-            db.collection("rsvp").add({
-                name: name,
-                email: email,
-                guests: guests,
-                attending: attending,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert('Confirmação de presença enviada com sucesso! Obrigado!');
-                this.reset();
-            })
-            .catch((error) => {
-                console.error("Erro ao salvar confirmação: ", error);
-                alert('Ocorreu um erro. Por favor, tente novamente mais tarde.');
-            });
-        });
-        
-        // Manipulação do formulário de mensagens
-        document.getElementById('messageForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const sender = this['sender'].value;
-            const message = this['message'].value;
-            
-            db.collection("messages").add({
-                sender: sender,
-                message: message,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert('Mensagem enviada com sucesso! Obrigado pelas suas palavras carinhosas!');
-                this.reset();
-            })
-            .catch((error) => {
-                console.error("Erro ao salvar mensagem: ", error);
-                alert('Ocorreu um erro. Por favor, tente novamente mais tarde.');
-            });
-        });
+        document.getElementById("rsvpForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const nome = form.nome.value.trim();
+  const presenca = form.presenca.value;
+  const quantidade = form.quantidade.value;
+
+  if (!nome || !presenca || !quantidade) {
+    document.getElementById("mensagem").textContent = "Preencha todos os campos!";
+    return;
+  }
+
+  const dados = {
+    nome,
+    presenca,
+    quantidade: parseInt(quantidade)
+  };
+
+  try {
+    const resposta = await fetch("https://api.sheetbest.com/sheets/fb4d3452-034f-45ca-84ad-580bae074ff5", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dados)
+    });
+
+    if (resposta.ok) {
+      document.getElementById("mensagem").textContent = "Confirmação enviada com sucesso! Obrigado ❤️";
+      form.reset();
+    } else {
+      document.getElementById("mensagem").textContent = "Erro ao enviar. Tente novamente.";
+    }
+  } catch (erro) {
+    console.error(erro);
+    document.getElementById("mensagem").textContent = "Erro na conexão. Verifique a internet.";
+  }
+});
     </script>
 </body>
 </html>
