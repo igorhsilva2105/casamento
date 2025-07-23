@@ -765,7 +765,7 @@
                 <!-- Mensagens para o Casal -->
                 <div class="form-section">
                     <h3 class="form-title">Deixe uma Mensagem</h3>
-                    <form id="messageForm">
+                    <form id="messageForm" data-sheet-best="https://api.sheetbest.com/sheets/f0ee1369-cc9e-49de-b529-978a490c1784">
                         <div class="form-group">
                             <label class="form-label" for="sender">Seu Nome</label>
                             <input type="text" class="form-input" id="sender" required>
@@ -919,6 +919,53 @@ document.getElementById("rsvpForm").addEventListener("submit", async function (e
                 console.error("Erro na conexão:", error);
                 formMessageElement.textContent = "Erro na conexão. Verifique sua internet ou tente novamente mais tarde.";
                 formMessageElement.style.color = "red";
+            }
+        });
+        document.getElementById("messageForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const senderValue = form.querySelector("#sender").value.trim();
+            const messageValue = form.querySelector("#message").value.trim();
+            const sheetBestUrl = form.getAttribute("data-sheet-best"); // Pega a URL do atributo data-sheet-best
+            const messageFormMessageElement = document.getElementById("messageFormMessage"); // Elemento para feedback
+
+            // Validação simples dos campos
+            if (!senderValue || !messageValue) {
+                messageFormMessageElement.textContent = "Por favor, preencha seu nome e a mensagem!";
+                messageFormMessageElement.style.color = "red";
+                return;
+            }
+
+            // Objeto de dados para enviar ao Sheet.best
+            // As chaves devem corresponder EXATAMENTE aos cabeçalhos da sua planilha: 'nome', 'mensagem'
+            const data = {
+                nome: senderValue,
+                mensagem: messageValue
+            };
+
+            try {
+                const response = await fetch(sheetBestUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    messageFormMessageElement.textContent = "Mensagem enviada com sucesso! Obrigado pelo carinho ❤️";
+                    messageFormMessageElement.style.color = "green";
+                    form.reset(); // Limpa o formulário após o envio
+                } else {
+                    const errorData = await response.json(); // Tenta ler a mensagem de erro da resposta
+                    messageFormMessageElement.textContent = `Erro ao enviar mensagem: ${errorData.message || 'Tente novamente.'}`;
+                    messageFormMessageElement.style.color = "red";
+                }
+            } catch (error) {
+                console.error("Erro na conexão:", error);
+                messageFormMessageElement.textContent = "Erro na conexão. Verifique sua internet ou tente novamente mais tarde.";
+                messageFormMessageElement.style.color = "red";
             }
         });
     </script>
