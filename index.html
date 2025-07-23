@@ -776,7 +776,6 @@
                         </div>
                         <button type="submit" class="form-button">Enviar Mensagem</button>
                     </form>
-                    <div id="messageFormMessage" style="margin-top: 1rem; text-align: center; font-weight: bold;"></div>
                 </div>
             </div>
         </div>
@@ -867,8 +866,20 @@
                 copyPixButton.textContent = 'Copiar Chave PIX';
             }, 2000);
         });
+
+           document.addEventListener('DOMContentLoaded', (event) => {
+                const nameInput = document.getElementById('sender'); // Campo 'Seu Nome' do formulário de mensagem
+                const senderInput = document.getElementById('name');     // Campo 'Nome Completo' do formulário de RSVP
+
+                if (senderInput && nameInput) {
+                    senderInput.addEventListener('input', () => {
+                    // Preenche o campo 'name' com o valor de 'sender'
+                    nameInput.value = senderInput.value;
+                    });
+                }
+            });
         
-document.getElementById("rsvpForm").addEventListener("submit", async function (e) {
+        document.getElementById("rsvpForm").addEventListener("submit", async function (e) {
             e.preventDefault();
 
             const form = e.target;
@@ -900,14 +911,14 @@ document.getElementById("rsvpForm").addEventListener("submit", async function (e
 
             try {
                 const response = await fetch(sheetBestUrl, {
-                    method: "POST",
+                   method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(data)
                 });
 
-                if (response.ok) {
+               if (response.ok) {
                     formMessageElement.textContent = "Confirmação enviada com sucesso! Obrigado ❤️";
                     formMessageElement.style.color = "green";
                     form.reset();
