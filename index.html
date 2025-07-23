@@ -871,12 +871,12 @@ document.getElementById("rsvpForm").addEventListener("submit", async function (e
             e.preventDefault();
 
             const form = e.target;
-            const name = form.querySelector("#name").value.trim();
-            const email = form.querySelector("#email").value.trim();
-            const guests = form.querySelector("#guests").value;
-            const attending = form.querySelector("#attending").value;
+            const nameValue = form.querySelector("#name").value.trim();
+            const emailValue = form.querySelector("#email").value.trim();
+            const guestsValue = form.querySelector("#guests").value;
+            const attendingValue = form.querySelector("#attending").value;
             const sheetBestUrl = form.getAttribute("data-sheet-best");
-            const formMessageElement = document.getElementById("formMessage"); // Get the message element
+            const formMessageElement = document.getElementById("formMessage");
 
             if (!name || !email || !guests || !attending) {
                 formMessageElement.textContent = "Por favor, preencha todos os campos!";
