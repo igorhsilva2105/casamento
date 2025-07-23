@@ -878,7 +878,13 @@ document.getElementById("rsvpForm").addEventListener("submit", async function (e
             const sheetBestUrl = form.getAttribute("data-sheet-best");
             const formMessageElement = document.getElementById("formMessage");
 
-            if (!name || !email || !guests || !attending) {
+            console.log("Valores coletados:");
+            console.log("nameValue:", nameValue);
+            console.log("emailValue:", emailValue);
+            console.log("guestsValue:", guestsValue);
+            console.log("attendingValue:", attendingValue);
+
+            if (!nameValue || !emailValue || !guestsValue || !attendingValue) {
                 formMessageElement.textContent = "Por favor, preencha todos os campos!";
                 formMessageElement.style.color = "red";
                 return;
