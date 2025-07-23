@@ -885,10 +885,10 @@ document.getElementById("rsvpForm").addEventListener("submit", async function (e
             }
 
             const data = {
-                Nome: name,
-                Email: email,
-                Numero_Convidados: parseInt(guests),
-                Comparecera: attending === "yes" ? "Sim" : "Não"
+                "Nome Completo": name, // Corrigido para corresponder à planilha
+                "Email": email,
+                "Número de Convidados": parseInt(guests), // Corrigido para corresponder à planilha
+                "Comparecerá": attending === "yes" ? "Sim" : "Não" // Corrigido para corresponder à planilha
             };
 
             try {
