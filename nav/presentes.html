@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Presentes | Letícia & Igor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Copiar todo o estilo do index.html aqui */
+        :root {
+            --primary: #d4b996;
+            --secondary: #8c6d46;
+            --accent: #a2836e;
+            --light: #f8f3ed;
+            --dark: #3c2f2f;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('../img/casaamento.png') no-repeat center center/cover;
+            height: 60vh; /* Alterado para 60vh */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centralizado verticalmente */
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .couple-names {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        .wedding-date {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        /* Botão Voltar */
+        .back-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--secondary);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+        
+        .back-button:hover {
+            background: var(--light);
+            transform: translateY(-3px);
+        }
+        
+        /* Main Content */
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            color: var(--secondary);
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        /* Lista de Presentes */
+        .gift-list {
+            background-color: white;
+        }
+        
+        .gift-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .gift-item {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .gift-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gift-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .gift-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .gift-image img:hover {
+            transform: scale(1.1);
+        }
+        
+        .gift-info {
+            padding: 1.5rem;
+        }
+        
+        .gift-name {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .gift-price {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .gift-button {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .gift-button:hover {
+            background: var(--secondary);
+        }
+        
+        .pix-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pix-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        .pix-key {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+        
+        .copy-button {
+            padding: 0.8rem 2rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .copy-button:hover {
+            background: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .couple-names {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .couple-names {
+                font-size: 2.2rem;
+            }
+            
+            .wedding-date {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1 class="couple-names">Letícia & Igor</h1>
+        <p class="wedding-date">13 de Setembro de 2025</p>
+        <a href="../index.html" class="back-button">Voltar para o Site</a>
+    </header>
+
+    <!-- Lista de Presentes -->
+    <section class="gift-list">
+        <div class="container">
+            <h2 class="section-title">Lista de Presentes</h2>
+            <div class="gift-container">
+                <!-- Presente 1 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Jogo de jantar">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Jogo de Jantar Completo</h3>
+                        <div class="gift-price">R$ 480,00</div>
+                        <button class="gift-button" data-price="480.00">Presentear com PIX</button>
+                    </div>
+                </div>
+
+                <!-- Presente 2 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Air Fryer">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Air Fryer 5L</h3>
+                        <div class="gift-price">R$ 420,00</div>
+                        <button class="gift-button" data-price="420.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Presente 3 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Máquina de café">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Máquina de Café Expresso</h3>
+                        <div class="gift-price">R$ 850,00</div>
+                        <button class="gift-button" data-price="850.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Presente 4 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Liquidificador">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Liquidificador Potente</h3>
+                        <div class="gift-price">R$ 320,00</div>
+                        <button class="gift-button" data-price="320.00">Presentear com PIX</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal PIX -->
+        <div class="pix-modal" id="pixModal">
+            <div class="pix-content">
+                <span class="close-modal">&times;</span>
+                <h3>Presenteie o casal via PIX</h3>
+                <p>Copie a chave PIX abaixo e faça a transferência do valor do presente:</p>
+                <div class="pix-key" id="pixKey">519.509.498-50</div>
+                <p>Valor: <span id="giftAmount">R$ 0,00</span></p>
+                <button class="copy-button" id="copyPix">Copiar Chave PIX</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="copyright">© 2025 Letícia & Igor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Funcionalidade da Lista de Presentes
+        const giftButtons = document.querySelectorAll('.gift-button');
+        const pixModal = document.getElementById('pixModal');
+        const closeModal = document.querySelector('.close-modal');
+        const pixKeyElement = document.getElementById('pixKey');
+        const giftAmountElement = document.getElementById('giftAmount');
+        const copyPixButton = document.getElementById('copyPix');
+        
+        giftButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const price = button.getAttribute('data-price');
+                giftAmountElement.textContent = `R$ ${parseFloat(price).toFixed(2).replace('.', ',')}`;
+                pixModal.style.display = 'flex';
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            pixModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (event) => {
+            if (event.target === pixModal) {
+                pixModal.style.display = 'none';
+            }
+        });
+        
+        copyPixButton.addEventListener('click', () => {
+            const textArea = document.createElement('textarea');
+            textArea.value = pixKeyElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            copyPixButton.textContent = 'Chave Copiada!';
+            setTimeout(() => {
+                copyPixButton.textContent = 'Copiar Chave PIX';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
