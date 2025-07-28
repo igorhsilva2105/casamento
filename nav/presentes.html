@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Copiar todo o estilo do index.html aqui */
         :root {
             --primary: #d4b996;
             --secondary: #8c6d46;
@@ -47,11 +46,11 @@
         
         /* Header */
         header {
-            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('../img/casaamento.png') no-repeat center center/cover;
-            height: 60vh; /* Alterado para 60vh */
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80') no-repeat center center/cover;
+            height: 60vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centralizado verticalmente */
+            justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
@@ -62,12 +61,14 @@
             font-size: 4.5rem;
             margin-bottom: 1rem;
             letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .wedding-date {
             font-size: 1.8rem;
             margin-bottom: 2rem;
             font-weight: 300;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
         /* Botão Voltar */
@@ -81,11 +82,13 @@
             font-weight: 500;
             transition: var(--transition);
             margin-top: 1rem;
+            box-shadow: var(--shadow);
         }
         
         .back-button:hover {
             background: var(--light);
             transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
         
         /* Main Content */
@@ -112,6 +115,17 @@
             background: var(--primary);
         }
         
+        /* Categorias */
+        .gift-category {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
         /* Lista de Presentes */
         .gift-list {
             background-color: white;
@@ -129,15 +143,18 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            position: relative;
         }
         
         .gift-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         
         .gift-image {
             height: 180px;
             overflow: hidden;
+            position: relative;
         }
         
         .gift-image img {
@@ -147,7 +164,7 @@
             transition: var(--transition);
         }
         
-        .gift-image img:hover {
+        .gift-image:hover img {
             transform: scale(1.1);
         }
         
@@ -156,15 +173,17 @@
         }
         
         .gift-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--secondary);
             margin-bottom: 0.5rem;
+            min-height: 60px;
         }
         
         .gift-price {
             font-weight: bold;
             margin-bottom: 1rem;
             color: var(--accent);
+            font-size: 1.3rem;
         }
         
         .gift-button {
@@ -178,6 +197,7 @@
             cursor: pointer;
             font-size: 1rem;
             transition: var(--transition);
+            font-weight: 500;
         }
         
         .gift-button:hover {
@@ -199,34 +219,41 @@
         
         .pix-content {
             background: white;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 15px;
             text-align: center;
             max-width: 500px;
             width: 90%;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
         }
         
         .close-modal {
             position: absolute;
             top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
+            right: 20px;
+            font-size: 1.8rem;
             cursor: pointer;
             color: var(--dark);
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
         }
         
         .pix-key {
             background: var(--light);
-            padding: 1rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1.8rem 0;
             font-size: 1.1rem;
             word-break: break-all;
+            border: 1px dashed var(--accent);
         }
         
         .copy-button {
-            padding: 0.8rem 2rem;
+            padding: 0.9rem 2.2rem;
             background: var(--secondary);
             color: white;
             border: none;
@@ -234,10 +261,39 @@
             cursor: pointer;
             font-size: 1rem;
             transition: var(--transition);
+            margin-right: 10px;
+            display: inline-block;
+            font-weight: 500;
         }
         
         .copy-button:hover {
             background: var(--primary);
+        }
+        
+        .pix-link {
+            padding: 0.9rem 2.2rem;
+            background: #32BCAD;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .pix-link:hover {
+            background: #279b8e;
+            transform: translateY(-2px);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
         }
         
         /* Footer */
@@ -263,6 +319,19 @@
             .section-title {
                 font-size: 2rem;
             }
+            
+            .gift-category {
+                font-size: 1.5rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .copy-button, .pix-link {
+                width: 100%;
+                margin: 5px 0;
+            }
         }
         
         @media (max-width: 480px) {
@@ -273,6 +342,48 @@
             .wedding-date {
                 font-size: 1rem;
             }
+            
+            .gift-category {
+                font-size: 1.3rem;
+            }
+            
+            .gift-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .gift-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 1;
+        }
+        
+        .instructions {
+            background: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .instructions h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+        
+        .instructions ol {
+            padding-left: 1.5rem;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -288,52 +399,172 @@
     <section class="gift-list">
         <div class="container">
             <h2 class="section-title">Lista de Presentes</h2>
+            
+            <div class="instructions">
+                <h4>Como presentear o casal:</h4>
+                <ol>
+                    <li>Escolha um presente da lista abaixo</li>
+                    <li>Clique no botão "Presentear com PIX"</li>
+                    <li>Você será redirecionado para seu banco com todos os dados preenchidos</li>
+                    <li>Confirme o pagamento no aplicativo do seu banco</li>
+                </ol>
+            </div>
+            
+            <!-- Cozinha -->
+            <h3 class="gift-category">Itens para a Cozinha (até R$ 150)</h3>
             <div class="gift-container">
-                <!-- Presente 1 -->
+                <!-- Item 1 -->
                 <div class="gift-item">
+                    <div class="gift-tag">Mais Popular</div>
                     <div class="gift-image">
-                        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Jogo de jantar">
+                        <img src="https://app-cdn.icasei.com.br/NDA2OTQzNjE3MzY1NjkzYjRkNDE1YjVlNWU3NjAzOTAwYjc5YjZkNzRjZmZkMTY5MmE2YmZmNzliYzNjYTI2YmNiOTE2YTliNDE4YTg2YzY3ZDMxNmYyMmVjMDRiZjk4NGQzNjYzM2M2ZWI4YzQyNDc0YjQxYjEzZDc1ZWQ0YTBhZDJmMmYyZmYyMDFkMjJmOTM3YzVhNDMyNTJhNDc4MmRmMzJjZDc5MjFmN2FlNDc3MjdjMTg1YWU4MGMwNmQ1YjRlMDkyNTdjNjhhYTU2MGIzMDNjMjQ3MWViNzg1YjNkMzU5MjhlYjA5MTMwYzE2ZmFkMWMzN2UyM2JiYzYzNjIyNWZiNDNkYjNiMTBiNTUwYzVmYjI3NzY2NDI4M2ZmMWU5MzRiZDJkODMxNGVkMjVlMDlhYjMzMWQzMThkZGQ1YmYxYWJkNTdiOWYyOTRiODgxNGQyNWY4NTU2YjgwMTVhNjcxMTMxZjBjY2JiZjQ0YmIwYjFiZGFkZmExNjJjYTQ3MWNjZmY=s0">
                     </div>
                     <div class="gift-info">
-                        <h3 class="gift-name">Jogo de Jantar Completo</h3>
-                        <div class="gift-price">R$ 480,00</div>
-                        <button class="gift-button" data-price="480.00">Presentear com PIX</button>
-                    </div>
-                </div>
-
-                <!-- Presente 2 -->
-                <div class="gift-item">
-                    <div class="gift-image">
-                        <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Air Fryer">
-                    </div>
-                    <div class="gift-info">
-                        <h3 class="gift-name">Air Fryer 5L</h3>
-                        <div class="gift-price">R$ 420,00</div>
-                        <button class="gift-button" data-price="420.00">Presentear com PIX</button>
+                        <h3 class="gift-name">Açucareiro</h3>
+                        <div class="gift-price">R$ 60,52</div>
+                        <button class="gift-button" data-price="60.52">Presentear com PIX</button>
                     </div>
                 </div>
                 
-                <!-- Presente 3 -->
+                <!-- Item 2 -->
                 <div class="gift-item">
                     <div class="gift-image">
-                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Máquina de café">
+                        <img src="https://images.unsplash.com/photo-1594750015539-0eac867a1193?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Kit de utensílios de silicone">
                     </div>
                     <div class="gift-info">
-                        <h3 class="gift-name">Máquina de Café Expresso</h3>
-                        <div class="gift-price">R$ 850,00</div>
-                        <button class="gift-button" data-price="850.00">Presentear com PIX</button>
+                        <h3 class="gift-name">Kit de utensílios de silicone</h3>
+                        <div class="gift-price">R$ 80,00</div>
+                        <button class="gift-button" data-price="80.00">Presentear com PIX</button>
                     </div>
                 </div>
                 
-                <!-- Presente 4 -->
+                <!-- Item 3 -->
                 <div class="gift-item">
                     <div class="gift-image">
-                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=180&q=80" alt="Liquidificador">
+                        <img src="https://images.unsplash.com/photo-1615478503562-ec208b7b1b81?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Pano de prato">
                     </div>
                     <div class="gift-info">
-                        <h3 class="gift-name">Liquidificador Potente</h3>
-                        <div class="gift-price">R$ 320,00</div>
-                        <button class="gift-button" data-price="320.00">Presentear com PIX</button>
+                        <h3 class="gift-name">Pano de prato (jogo com 5 unidades)</h3>
+                        <div class="gift-price">R$ 50,00</div>
+                        <button class="gift-button" data-price="50.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 4 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Saleiro e pimenteiro">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Saleiro e pimenteiro de cerâmica</h3>
+                        <div class="gift-price">R$ 60,00</div>
+                        <button class="gift-button" data-price="60.00">Presentear com PIX</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enxoval -->
+            <h3 class="gift-category">Itens de Enxoval (até R$ 200)</h3>
+            <div class="gift-container">
+                <!-- Item 1 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Lençol casal">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Lençol casal com elástico</h3>
+                        <div class="gift-price">R$ 90,00</div>
+                        <button class="gift-button" data-price="90.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="gift-item">
+                    <div class="gift-tag">Em falta</div>
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Jogo de fronhas">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Jogo de fronhas (4 unidades)</h3>
+                        <div class="gift-price">R$ 70,00</div>
+                        <button class="gift-button" data-price="70.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1600543926880-453ab8964b0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Toalha de banho">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Toalha de banho casal</h3>
+                        <div class="gift-price">R$ 80,00</div>
+                        <button class="gift-button" data-price="80.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 4 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Toalha de rosto">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Toalha de rosto (jogo com 4 unidades)</h3>
+                        <div class="gift-price">R$ 60,00</div>
+                        <button class="gift-button" data-price="60.00">Presentear com PIX</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dia a Dia -->
+            <h3 class="gift-category">Itens Úteis para o Dia a Dia (até R$ 200)</h3>
+            <div class="gift-container">
+                <!-- Item 1 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Escorredor de louça">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Escorredor de louça em inox</h3>
+                        <div class="gift-price">R$ 100,00</div>
+                        <button class="gift-button" data-price="100.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="gift-item">
+                    <div class="gift-tag">Novo</div>
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1583947215259-38e31be8751f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Conjunto de facas">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Conjunto de facas de cozinha (6 peças)</h3>
+                        <div class="gift-price">R$ 180,00</div>
+                        <button class="gift-button" data-price="180.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Cafeteira italiana">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Cafeteira italiana</h3>
+                        <div class="gift-price">R$ 150,00</div>
+                        <button class="gift-button" data-price="150.00">Presentear com PIX</button>
+                    </div>
+                </div>
+                
+                <!-- Item 4 -->
+                <div class="gift-item">
+                    <div class="gift-image">
+                        <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Luminária de mesa">
+                    </div>
+                    <div class="gift-info">
+                        <h3 class="gift-name">Luminária de mesa LED touch</h3>
+                        <div class="gift-price">R$ 120,00</div>
+                        <button class="gift-button" data-price="120.00">Presentear com PIX</button>
                     </div>
                 </div>
             </div>
@@ -344,10 +575,24 @@
             <div class="pix-content">
                 <span class="close-modal">&times;</span>
                 <h3>Presenteie o casal via PIX</h3>
-                <p>Copie a chave PIX abaixo e faça a transferência do valor do presente:</p>
+                <p>O valor do presente será transferido diretamente para os noivos:</p>
+                
                 <div class="pix-key" id="pixKey">519.509.498-50</div>
-                <p>Valor: <span id="giftAmount">R$ 0,00</span></p>
-                <button class="copy-button" id="copyPix">Copiar Chave PIX</button>
+                
+                <p>Valor: <strong id="giftAmount">R$ 0,00</strong></p>
+                
+                <div class="button-container">
+                    <button class="copy-button" id="copyPix">
+                        <i class="fas fa-copy"></i> Copiar Chave
+                    </button>
+                    <a href="#" id="pixDirectLink" class="pix-link">
+                        <i class="fas fa-external-link-alt"></i> Pagar com PIX
+                    </a>
+                </div>
+                
+                <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                    * O link abrirá seu aplicativo bancário com todos os dados preenchidos
+                </p>
             </div>
         </div>
     </section>
@@ -355,27 +600,47 @@
     <!-- Footer -->
     <footer>
         <div class="container">
+            <p>Obrigado por fazer parte da nossa história!</p>
             <p class="copyright">© 2025 Letícia & Igor. Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <script>
-        // Funcionalidade da Lista de Presentes
+        // Chave PIX e informações do casal
+        const pixKey = '519.509.498-50';
+        const coupleName = 'Letícia e Igor';
+        const city = 'Porto Alegre';
+        
+        // Elementos DOM
         const giftButtons = document.querySelectorAll('.gift-button');
         const pixModal = document.getElementById('pixModal');
         const closeModal = document.querySelector('.close-modal');
         const pixKeyElement = document.getElementById('pixKey');
         const giftAmountElement = document.getElementById('giftAmount');
         const copyPixButton = document.getElementById('copyPix');
+        const pixDirectLink = document.getElementById('pixDirectLink');
         
+        // Atualizar o modal com o valor do presente
         giftButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const price = button.getAttribute('data-price');
-                giftAmountElement.textContent = `R$ ${parseFloat(price).toFixed(2).replace('.', ',')}`;
+                const formattedPrice = parseFloat(price).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                
+                giftAmountElement.textContent = formattedPrice;
+                pixKeyElement.textContent = pixKey;
+                
+                // Gerar link PIX direto
+                const pixLink = `00020126330014BR.GOV.BCB.PIX0111519509498505204000053039865406605.205802BR5901N6001C62140510Acucareiro6304B67A`;
+                pixDirectLink.href = pixLink;
+                
                 pixModal.style.display = 'flex';
             });
         });
         
+        // Fechar o modal
         closeModal.addEventListener('click', () => {
             pixModal.style.display = 'none';
         });
@@ -386,18 +651,26 @@
             }
         });
         
+        // Copiar chave PIX
         copyPixButton.addEventListener('click', () => {
             const textArea = document.createElement('textarea');
-            textArea.value = pixKeyElement.textContent;
+            textArea.value = pixKey;
             document.body.appendChild(textArea);
             textArea.select();
             document.execCommand('copy');
             document.body.removeChild(textArea);
             
-            copyPixButton.textContent = 'Chave Copiada!';
+            copyPixButton.innerHTML = '<i class="fas fa-check"></i> Copiado!';
             setTimeout(() => {
-                copyPixButton.textContent = 'Copiar Chave PIX';
+                copyPixButton.innerHTML = '<i class="fas fa-copy"></i> Copiar Chave';
             }, 2000);
+        });
+        
+        // Aviso sobre links PIX
+        pixDirectLink.addEventListener('click', function(e) {
+            if(!confirm('Você será redirecionado para seu aplicativo bancário. Deseja continuar?')) {
+                e.preventDefault();
+            }
         });
     </script>
 </body>
