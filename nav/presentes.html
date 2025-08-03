@@ -910,92 +910,97 @@
         </div>
     </footer>
 
-    <script>
-        // Chave PIX e informações do casal
-        const pixKey = '519.509.498-50';
-        const coupleName = 'Letícia e Igor';
-        const city = 'Porto Alegre';
-        
-        // Elementos DOM
-        const giftButtons = document.querySelectorAll('.gift-button');
-        const pixModal = document.getElementById('pixModal');
-        const closeModal = document.querySelector('.close-modal');
-        const pixKeyElement = document.getElementById('pixKey');
-        const giftAmountElement = document.getElementById('giftAmount');
-        const copyPixButton = document.getElementById('copyPix');
-        const pixDirectLink = document.getElementById('pixDirectLink');
-        
-        // Atualizar o modal com o valor do presente
-        giftButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const price = button.getAttribute('data-price');
-                const formattedPrice = parseFloat(price).toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                });
-                
-                giftAmountElement.textContent = formattedPrice;
-                pixKeyElement.textContent = pixKey;
-                
-                // Gerar link PIX direto
-                const pixLink = `br.gov.bcb.pix://pix?pixkey=00020126330014BR.GOV.BCB.PIX0111519509498505204000053039865406605.205802BR5901N6001C62140510Acucareiro6304B67A`;
-                pixDirectLink.href = pixLink;
-                
-                pixModal.style.display = 'flex';
+<script>
+    // Chave PIX e informações do casal
+    const pixKey = '519.509.498-50';
+    const coupleName = 'Letícia e Igor';
+    const city = 'Porto Alegre';
+
+    // Elementos DOM
+    const giftButtons = document.querySelectorAll('.gift-button');
+    const pixModal = document.getElementById('pixModal');
+    const closeModal = document.querySelector('.close-modal');
+    const pixKeyElement = document.getElementById('pixKey');
+    const giftAmountElement = document.getElementById('giftAmount');
+    const copyPixButton = document.getElementById('copyPix');
+    const pixDirectLink = document.getElementById('pixDirectLink');
+
+    // Atualizar o modal com o valor do presente
+    giftButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const price = button.getAttribute('data-price');
+            const formattedPrice = parseFloat(price).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
             });
+
+            giftAmountElement.textContent = formattedPrice;
+            pixKeyElement.textContent = pixKey;
+
+            const pixLink = gerarPixLink(pixKey, coupleName, city, parseFloat(price));
+            pixDirectLink.href = pixLink;
+
+            pixModal.style.display = 'flex';
         });
-        
-        // Fechar o modal
-        closeModal.addEventListener('click', () => {
+    });
+
+    // Fechar o modal
+    closeModal.addEventListener('click', () => {
+        pixModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === pixModal) {
             pixModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', (event) => {
-            if (event.target === pixModal) {
-                pixModal.style.display = 'none';
-            }
-        });
-        
-        // Copiar chave PIX
-        copyPixButton.addEventListener('click', () => {
-            const textArea = document.createElement('textarea');
-            textArea.value = pixKey;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            
-            copyPixButton.innerHTML = '<i class="fas fa-check"></i> Copiado!';
-            setTimeout(() => {
-                copyPixButton.innerHTML = '<i class="fas fa-copy"></i> Copiar Chave';
-            }, 2000);
-        });
-        
-        // Aviso sobre links PIX
-        pixDirectLink.addEventListener('click', function(e) {
-            if(!confirm('Você será redirecionado para seu aplicativo bancário. Deseja continuar?')) {
-                e.preventDefault();
-            }
-        });
+        }
+    });
+
+    // Copiar chave PIX
+    copyPixButton.addEventListener('click', () => {
+        const textArea = document.createElement('textarea');
+        textArea.value = pixKey;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+
+        copyPixButton.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+        setTimeout(() => {
+            copyPixButton.innerHTML = '<i class="fas fa-copy"></i> Copiar Chave';
+        }, 2000);
+    });
+
+    // Aviso sobre links PIX
+    pixDirectLink.addEventListener('click', function(e) {
+        if (!confirm('Você será redirecionado para seu aplicativo bancário. Deseja continuar?')) {
+            e.preventDefault();
+        }
+    });
+
+    // Função que gera o link Pix com base no valor
     function gerarPixLink(chave, nome, cidade, valor) {
-    const pad = (str, len) => String(str).padStart(len, '0');
-    const clean = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9 ]/g, '');
+        const clean = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9 ]/g, '');
 
-    const payload = [
-        '000201',
-        '26360014BR.GOV.BCB.PIX',
-        `0114${chave}`,
-        '52040000',
-        '5303986',
-        `5406${pad(valor.toFixed(2), 6)}`,
-        '5802BR',
-        `5914${clean(nome).substring(0,14)}`,
-        `6011${clean(cidade).substring(0,11)}`,
-        '62070503***'
-    ].join('');
+        const valorFormatado = valor.toFixed(2);
+        const nomeLimpo = clean(nome).substring(0, 25);
+        const cidadeLimpa = clean(cidade).substring(0, 15);
 
-    return `pix://pay?payload=${encodeURIComponent(payload)}`;
-}
-    </script>
+        const payload = [
+            '000201',
+            '26360014BR.GOV.BCB.PIX',
+            `0114${chave}`,
+            '52040000',
+            '5303986',
+            `54${valorFormatado.length}${valorFormatado}`,
+            '5802BR',
+            `59${nomeLimpo.length}${nomeLimpo}`,
+            `60${cidadeLimpa.length}${cidadeLimpa}`,
+            '62070503***'
+        ].join('');
+
+        return `pix://pay?payload=${encodeURIComponent(payload)}`;
+    }
+</script>
+
 </body>
 </html>
