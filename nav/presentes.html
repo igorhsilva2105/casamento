@@ -867,8 +867,8 @@
     // Objeto com os payloads PIX pré-gerados para cada item
     const pixPayloadsById = {
         'item1': '00020126330014BR.GOV.BCB.PIX011151950949850520400005303986540560.525802BR5901N6001C62140510Acucareiro63048FB6',
-        'item2': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540570.925802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
-        'item3': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540570.925802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item2': '00020126330014BR.GOV.BCB.PIX011151950949850520400005303986540570.925802BR5901N6001C62210517AlmofadasAcolhida630461C7',
+        'item3': '00020126330014BR.GOV.BCB.PIX0111519509498505204000053039865406709.205802BR5901N6001C62200516Aparelhodejantar6304F448',
         'item4': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406156.245802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
         'item5': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406539.145802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
         'item6': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406144.685802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
@@ -917,34 +917,52 @@
     // Mapeamento de URIs da loja de apps para Android e iOS
     const bankAppUris = {
         'itau': {
-            android: 'market://details?id=com.itau',
-            ios: 'https://itunes.apple.com/app/id451457813'
+            app: 'itau://',
+            storeIos: 'https://itunes.apple.com/app/id451457813',
+            storeAndroid: 'market://details?id=com.itau'
         },
         'nubank': {
-            android: 'market://details?id=com.nubank',
-            ios: 'https://itunes.apple.com/br/app/nubank/id852230713?mt=8'
+            app: 'nubank://',
+            storeIos: 'https://itunes.apple.com/br/app/nubank/id852230713?mt=8',
+            storeAndroid: 'market://details?id=com.nubank'
         },
         'bradesco': {
-            android: 'market://details?id=com.bradesco',
-            ios: 'https://itunes.apple.com/br/app/bradesco/id336954985'
+            app: 'bradesco://',
+            storeIos: 'https://itunes.apple.com/br/app/bradesco/id336954985',
+            storeAndroid: 'market://details?id=com.bradesco'
         },
         'bancodobrasil': {
-            android: 'market://details?id=br.com.bb.android',
-            ios: 'https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8'
+            app: 'bb.com.br://',
+            storeIos: 'https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8',
+            storeAndroid: 'market://details?id=br.com.bb.android'
         }
     };
     
     // Adicionar eventos de clique para os botões de banco
     document.querySelectorAll('.bank-options .bank-button').forEach(button => {
         const bankName = button.querySelector('img').getAttribute('alt').toLowerCase();
+        
         button.addEventListener('click', (event) => {
+            event.preventDefault(); // Impede o comportamento padrão do link
+
             const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             const isAndroid = /Android/.test(navigator.userAgent);
             
-            if (isIos) {
-                event.target.href = bankAppUris[bankName].ios;
-            } else if (isAndroid) {
-                event.target.href = bankAppUris[bankName].android;
+            const bankUris = bankAppUris[bankName];
+
+            if (bankUris) {
+                // Tenta abrir o aplicativo com o deep link
+                window.location.href = bankUris.app;
+
+                // Define um fallback para a loja de aplicativos
+                setTimeout(() => {
+                    // Se o aplicativo não abrir em 500ms, redireciona para a loja
+                    if (isIos) {
+                        window.location.href = bankUris.storeIos;
+                    } else if (isAndroid) {
+                        window.location.href = bankUris.storeAndroid;
+                    }
+                }, 500);
             }
         });
     });
