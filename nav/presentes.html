@@ -204,7 +204,7 @@
             background: var(--secondary);
         }
         
-        .pix-modal {
+        .pix-modal-container {
             display: none;
             position: fixed;
             top: 0;
@@ -215,9 +215,10 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(5px);
         }
         
-        .pix-content {
+        .pix-modal-content {
             background: white;
             padding: 2.5rem;
             border-radius: 15px;
@@ -226,6 +227,12 @@
             width: 90%;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
         
         .close-modal {
@@ -241,59 +248,63 @@
         .close-modal:hover {
             color: var(--accent);
         }
-        
-        .pix-key {
-            background: var(--light);
-            padding: 1.2rem;
-            border-radius: 8px;
-            margin: 1.8rem 0;
+
+        .modal-title {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .modal-instruction {
             font-size: 1.1rem;
-            word-break: break-all;
-            border: 1px dashed var(--accent);
+            margin-bottom: 1.5rem;
         }
         
-        .copy-button {
-            padding: 0.9rem 2.2rem;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: var(--transition);
-            margin-right: 10px;
-            display: inline-block;
-            font-weight: 500;
+        .bank-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
         }
         
-        .copy-button:hover {
-            background: var(--primary);
-        }
-        
-        .pix-link {
-            padding: 0.9rem 2.2rem;
-            background: #32BCAD;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: var(--transition);
+        .bank-button {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
             text-decoration: none;
-            display: inline-block;
+            color: var(--dark);
             font-weight: 500;
-        }
-        
-        .pix-link:hover {
-            background: #279b8e;
-            transform: translateY(-2px);
-        }
-        
-        .button-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .bank-button:hover {
+            background: var(--light);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .bank-button img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .copy-info {
+            padding: 15px;
+            background: #eef7f2;
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            color: #2e7d32;
+            font-weight: 500;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
             gap: 10px;
-            margin-top: 15px;
         }
         
         /* Footer */
@@ -324,13 +335,8 @@
                 font-size: 1.5rem;
             }
             
-            .button-container {
-                flex-direction: column;
-            }
-            
-            .copy-button, .pix-link {
-                width: 100%;
-                margin: 5px 0;
+            .bank-options {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -403,7 +409,7 @@
                 <ol>
                     <li>Escolha um presente da lista abaixo</li>
                     <li>Clique no botão "Presentear com PIX"</li>
-                    <li>Siga as instruções do modal para pagar via PIX</li>
+                    <li>Siga as instruções para copiar o código e pagar</li>
                 </ol>
             </div>
             <div class="gift-container">
@@ -415,7 +421,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Açucareiro</h3>
                         <div class="gift-price">R$ 60,52</div>
-                        <button class="gift-button" data-price="60.52">Presentear com PIX</button>
+                        <button class="gift-button" data-price="60.52" data-item-id="item1">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -425,7 +431,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Almofadas para dar aquela acolhida no sofá</h3>
                         <div class="gift-price">R$ 70,92</div>
-                        <button class="gift-button" data-price="70.92">Presentear com PIX</button>
+                        <button class="gift-button" data-price="70.92" data-item-id="item2">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -435,17 +441,17 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Aparelho de jantar</h3>
                         <div class="gift-price">R$ 70,92</div>
-                        <button class="gift-button" data-price="70.92">Presentear com PIX</button>
+                        <button class="gift-button" data-price="70.92" data-item-id="item3">Presentear com PIX</button>
                     </div>
                 </div>
-<div class="gift-item">
+                <div class="gift-item">
                     <div class="gift-image">
                         <img src="https://storage.googleapis.com/icasei-products-prod/couple/1427575/images/4346080/1751237374/site-de-casamento-icasei-lp-0000000112231270.webp">
                     </div>
                     <div class="gift-info">
                         <h3 class="gift-name">Batedeira</h3>
                         <div class="gift-price">R$ 156,24</div>
-                        <button class="gift-button" data-price="156.24">Presentear com PIX</button>
+                        <button class="gift-button" data-price="156.24" data-item-id="item4">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -455,7 +461,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Box Queen</h3>
                         <div class="gift-price">R$ 539,14</div>
-                        <button class="gift-button" data-price="539.14">Presentear com PIX</button>
+                        <button class="gift-button" data-price="539.14" data-item-id="item5">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -465,7 +471,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Conjunto de assadeiras de vidro Marinex 4 unidades</h3>
                         <div class="gift-price">R$ 144,68</div>
-                        <button class="gift-button" data-price="144.68">Presentear com PIX</button>
+                        <button class="gift-button" data-price="144.68" data-item-id="item6">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -475,7 +481,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Conjunto de travesseiros</h3>
                         <div class="gift-price">R$ 138,55</div>
-                        <button class="gift-button" data-price="138.55">Presentear com PIX</button>
+                        <button class="gift-button" data-price="138.55" data-item-id="item7">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -485,7 +491,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Conjunto para sobremesa de vidro</h3>
                         <div class="gift-price">R$ 59,48</div>
-                        <button class="gift-button" data-price="59.48">Presentear com PIX</button>
+                        <button class="gift-button" data-price="59.48" data-item-id="item8">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -495,7 +501,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Cortina</h3>
                         <div class="gift-price">R$ 122,95</div>
-                        <button class="gift-button" data-price="122.95">Presentear com PIX</button>
+                        <button class="gift-button" data-price="122.95" data-item-id="item9">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -505,7 +511,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Fritadeira Air Fryer</h3>
                         <div class="gift-price">R$ 315,33</div>
-                        <button class="gift-button" data-price="315.33">Presentear com PIX</button>
+                        <button class="gift-button" data-price="315.33" data-item-id="item10">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -515,7 +521,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Garrafa térmica</h3>
                         <div class="gift-price">R$ 39,71</div>
-                        <button class="gift-button" data-price="39.71">Presentear com PIX</button>
+                        <button class="gift-button" data-price="39.71" data-item-id="item11">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -525,7 +531,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Geladeira Refrigeradora</h3>
                         <div class="gift-price">R$ 1.995,80</div>
-                        <button class="gift-button" data-price="1995.80">Presentear com PIX</button>
+                        <button class="gift-button" data-price="1995.80" data-item-id="item12">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -535,7 +541,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Jarra de vidro com tampa</h3>
                         <div class="gift-price">R$ 46,99</div>
-                        <button class="gift-button" data-price="46.99">Presentear com PIX</button>
+                        <button class="gift-button" data-price="46.99" data-item-id="item13">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -545,7 +551,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Jogo de banho - 5 peças</h3>
                         <div class="gift-price">R$ 185,38</div>
-                        <button class="gift-button" data-price="185.38">Presentear com PIX</button>
+                        <button class="gift-button" data-price="185.38" data-item-id="item14">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -555,7 +561,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Jogo de canecas</h3>
                         <div class="gift-price">R$ 60,52</div>
-                        <button class="gift-button" data-price="60.52">Presentear com PIX</button>
+                        <button class="gift-button" data-price="60.52" data-item-id="item15">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -565,7 +571,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Jogo de lençol</h3>
                         <div class="gift-price">R$ 80,00</div>
-                        <button class="gift-button" data-price="80">Presentear com PIX</button>
+                        <button class="gift-button" data-price="80" data-item-id="item16">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -575,7 +581,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">JOGO TACA VINHO KLAUDIE BOHEMIA 6PCS 230ML</h3>
                         <div class="gift-price">R$ 70,92</div>
-                        <button class="gift-button" data-price="70.92">Presentear com PIX</button>
+                        <button class="gift-button" data-price="70.92" data-item-id="item17">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -585,7 +591,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Kit Pano de Copa</h3>
                         <div class="gift-price">R$ 50,11</div>
-                        <button class="gift-button" data-price="50.11">Presentear com PIX</button>
+                        <button class="gift-button" data-price="50.11" data-item-id="item18">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -595,7 +601,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Kit Utensilhos</h3>
                         <div class="gift-price">R$ 50,11</div>
-                        <button class="gift-button" data-price="50.11">Presentear com PIX</button>
+                        <button class="gift-button" data-price="50.11" data-item-id="item19">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -605,7 +611,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Liquidificador</h3>
                         <div class="gift-price">R$ 130,23</div>
-                        <button class="gift-button" data-price="130.23">Presentear com PIX</button>
+                        <button class="gift-button" data-price="130.23" data-item-id="item20">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -615,7 +621,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Mesa com 4 Cadeiras</h3>
                         <div class="gift-price">R$ 435,09</div>
-                        <button class="gift-button" data-price="435.09">Presentear com PIX</button>
+                        <button class="gift-button" data-price="435.09" data-item-id="item21">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -625,7 +631,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Mesa de cabeceira</h3>
                         <div class="gift-price">R$ 122,95</div>
-                        <button class="gift-button" data-price="122.95">Presentear com PIX</button>
+                        <button class="gift-button" data-price="122.95" data-item-id="item22">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -635,7 +641,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Mesa de centro</h3>
                         <div class="gift-price">R$ 185,38</div>
-                        <button class="gift-button" data-price="185.38">Presentear com PIX</button>
+                        <button class="gift-button" data-price="185.38" data-item-id="item23">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -645,7 +651,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Microondas</h3>
                         <div class="gift-price">R$ 331,04</div>
-                        <button class="gift-button" data-price="331.04">Presentear com PIX</button>
+                        <button class="gift-button" data-price="331.04" data-item-id="item24">Presentear com PIX</button>
                     </div>
                 </div>
                 <div class="gift-item">
@@ -655,7 +661,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Painel Tv</h3>
                         <div class="gift-price">R$ 226,99</div>
-                        <button class="gift-button" data-price="226.99">Presentear com PIX</button>
+                        <button class="gift-button" data-price="226.99" data-item-id="item25">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -663,10 +669,9 @@
                        <img src="https://lh3.googleusercontent.com/x0-MUrZMG_jszn6sRlGVZrXCvJGMa0eRLISU5bjSqQuyxhrmJ7txQfhW5Z4HpMoulk9d0qTzthZjDiMY0CTPly2B7ALebqNxfqOAW5eXhm_DTg=s0">
                     </div>
                     <div class="gift-info">
-                        <h3 class="gift-name">Porta bolo
-</h3>
+                        <h3 class="gift-name">Porta bolo</h3>
                         <div class="gift-price">R$ 54,28</div>
-                        <button class="gift-button" data-price="54.28">Presentear com PIX</button>
+                        <button class="gift-button" data-price="54.28" data-item-id="item26">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -676,7 +681,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Potes herméticos</h3>
                         <div class="gift-price">R$ 60,52</div>
-                        <button class="gift-button" data-price="60.52">Presentear com PIX</button>
+                        <button class="gift-button" data-price="60.52" data-item-id="item27">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -686,7 +691,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Saladeira</h3>
                         <div class="gift-price">R$ 46,99</div>
-                        <button class="gift-button" data-price="46.99">Presentear com PIX</button>
+                        <button class="gift-button" data-price="46.99" data-item-id="item28">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -696,7 +701,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Sofá Retrátil</h3>
                         <div class="gift-price">R$ 1.506,78</div>
-                        <button class="gift-button" data-price="1506.78">Presentear com PIX</button>
+                        <button class="gift-button" data-price="1506.78" data-item-id="item29">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -706,7 +711,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Tábua de corte</h3>
                         <div class="gift-price">R$ 60,52</div>
-                        <button class="gift-button" data-price="60.52">Presentear com PIX</button>
+                        <button class="gift-button" data-price="60.52" data-item-id="item30">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -716,7 +721,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Tapete de sala</h3>
                         <div class="gift-price">R$ 208,27</div>
-                        <button class="gift-button" data-price="208.27">Presentear com PIX</button>
+                        <button class="gift-button" data-price="208.27" data-item-id="item31">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -726,7 +731,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Toalha de mesa</h3>
                         <div class="gift-price">R$ 50,11</div>
-                        <button class="gift-button" data-price="50.11">Presentear com PIX</button>
+                        <button class="gift-button" data-price="50.11" data-item-id="item32">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -736,7 +741,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 20</div>
-                        <button class="gift-button" data-price="20">Presentear com PIX</button>
+                        <button class="gift-button" data-price="20" data-item-id="item33">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -746,7 +751,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 40</div>
-                        <button class="gift-button" data-price="40">Presentear com PIX</button>
+                        <button class="gift-button" data-price="40" data-item-id="item34">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -756,7 +761,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 60</div>
-                        <button class="gift-button" data-price="60">Presentear com PIX</button>
+                        <button class="gift-button" data-price="60" data-item-id="item35">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -766,7 +771,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 80</div>
-                        <button class="gift-button" data-price="80">Presentear com PIX</button>
+                        <button class="gift-button" data-price="80" data-item-id="item36">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -776,7 +781,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 100</div>
-                        <button class="gift-button" data-price="100">Presentear com PIX</button>
+                        <button class="gift-button" data-price="100" data-item-id="item37">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -786,7 +791,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 120</div>
-                        <button class="gift-button" data-price="120">Presentear com PIX</button>
+                        <button class="gift-button" data-price="120" data-item-id="item38">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -796,7 +801,7 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 140</div>
-                        <button class="gift-button" data-price="140">Presentear com PIX</button>
+                        <button class="gift-button" data-price="140" data-item-id="item39">Presentear com PIX</button>
                     </div>
                 </div>
                <div class="gift-item">
@@ -806,55 +811,50 @@
                     <div class="gift-info">
                         <h3 class="gift-name">Vale-presente</h3>
                         <div class="gift-price">R$ 160</div>
-                        <button class="gift-button" data-price="160">Presentear com PIX</button>
+                        <button class="gift-button" data-price="160" data-item-id="item40">Presentear com PIX</button>
                     </div>
                 </div>
-               <div class="gift-item">
-                    <div class="gift-image">
-                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu3fS99OMrW0DhhCiPJCGjA-qv1Yi8XBe0yw&s">
-                    </div>
-                    <div class="gift-info">
-                        <h3 class="gift-name">Vale-presente</h3>
-                        <div class="gift-price">R$ 180</div>
-                        <button class="gift-button" data-price="180">Presentear com PIX</button>
-                    </div>
-                </div>
-               <div class="gift-item">
-                    <div class="gift-image">
-                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu3fS99OMrW0DhhCiPJCGjA-qv1Yi8XBe0yw&s">
-                    </div>
-                    <div class="gift-info">
-                        <h3 class="gift-name">Vale-presente</h3>
-                        <div class="gift-price">R$ 200</div>
-                        <button class="gift-button" data-price="200">Presentear com PIX</button>
-                    </div>
-                </div>
-            </div>
-        <div class="pix-modal" id="pixModal">
-            <div class="pix-content">
-                <span class="close-modal">×</span>
-                <h3>Presenteie o casal via PIX</h3>
-                <p>O valor do presente será transferido diretamente para os noivos:</p>
-                
-                <div class="pix-key" id="pixKey">519.509.498-50</div>
-                
-                <p>Valor: <strong id="giftAmount">R$ 0,00</strong></p>
-                
-                <div class="button-container">
-                    <button class="copy-button" id="copyPix">
-                        <i class="fas fa-copy"></i> Copiar Chave
-                    </button>
-                    <a href="#" id="pixDirectLink" class="pix-link">
-                        <i class="fas fa-external-link-alt"></i> Pagar com o App do Banco
-                    </a>
-                </div>
-                
-                <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-                    * Ao clicar em "Pagar com o App do Banco", o seu celular irá abrir o aplicativo bancário que está configurado para o PIX.
-                </p>
             </div>
         </div>
     </section>
+
+    <div class="pix-modal-container" id="pixModal">
+        <div class="pix-modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 class="modal-title">Pagamento via PIX</h3>
+            
+            <p class="modal-instruction">O código PIX foi copiado para sua área de transferência.</p>
+            <p class="modal-instruction">Agora, abra o seu aplicativo de banco e utilize a opção <b>"PIX Copia e Cola"</b> para efetuar o pagamento de <strong id="giftAmount">R$ 0,00</strong>.</p>
+            
+            <div class="copy-info">
+                <i class="fas fa-check-circle"></i>
+                <span>Código copiado!</span>
+            </div>
+
+            <h4 style="margin-top: 2rem; color: var(--secondary);">Encontre seu banco:</h4>
+            <div class="bank-options">
+                <a href="https://itunes.apple.com/app/id451457813" target="_blank" class="bank-button">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCVN47Gkh4j0CIv9hViguUm2GxbFzHrPmsbg&s" alt="Itaú">
+                    <span>Itaú</span>
+                </a>
+                <a href="https://itunes.apple.com/br/app/nubank/id852230713?mt=8" target="_blank" class="bank-button">
+                    <img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-2.png" alt="Nubank">
+                    <span>Nubank</span>
+                </a>
+                <a href="https://itunes.apple.com/br/app/bradesco/id336954985" target="_blank" class="bank-button">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK2mM4mOcVKmmV6TKAYvvo6_fikW64JYBoOg&s" alt="Bradesco">
+                    <span>Bradesco</span>
+                </a>
+                <a href="https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8" target="_blank" class="bank-button">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeisONKtZWeQQAQwZcOXz-nUWnSPQ6MGUYHg&s" alt="Banco do Brasil">
+                    <span>Banco do Brasil</span>
+                </a>
+            </div>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
+                * Se o aplicativo do seu banco não estiver listado, abra-o manualmente e procure pela função "PIX Copia e Cola".
+            </p>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
@@ -864,36 +864,147 @@
     </footer>
 
 <script>
-    // Chave PIX e informações do casal
-    const pixKey = '519.509.498-50';
-    const coupleName = 'Letícia e Igor';
-    const city = 'Porto Alegre';
+    // Objeto com os payloads PIX pré-gerados para cada item
+    const pixPayloadsById = {
+        'item1': '00020126330014BR.GOV.BCB.PIX011151950949850520400005303986540560.525802BR5901N6001C62140510Acucareiro63048FB6',
+        'item2': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540570.925802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item3': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540570.925802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item4': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406156.245802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item5': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406539.145802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item6': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406144.685802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item7': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406138.555802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item8': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540559.485802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item9': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406122.955802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item10': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406315.335802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item11': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540539.715802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item12': '00020126360014BR.GOV.BCB.PIX0114519.509.498-5052040000530398654071995.805802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item13': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540546.995802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item14': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406185.385802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item15': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540560.525802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item16': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540480.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item17': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540570.925802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item18': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540550.115802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item19': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540550.115802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item20': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406130.235802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item21': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406435.095802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item22': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406122.955802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item23': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406185.385802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item24': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406331.045802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item25': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406226.995802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item26': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540554.285802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item27': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540560.525802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item28': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540546.995802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item29': '00020126360014BR.GOV.BCB.PIX0114519.509.498-5052040000530398654071506.785802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item30': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540560.525802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item31': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865406208.275802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item32': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540550.115802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item33': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540420.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item34': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540440.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item35': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540460.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item36': '00020126360014BR.GOV.BCB.PIX0114519.509.498-50520400005303986540480.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item37': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865405100.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item38': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865405120.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item39': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865405140.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***',
+        'item40': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865405160.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***'
+    };
 
     // Elementos DOM
     const giftButtons = document.querySelectorAll('.gift-button');
     const pixModal = document.getElementById('pixModal');
-    const closeModal = document.querySelector('.close-modal');
-    const pixKeyElement = document.getElementById('pixKey');
+    const closeModal = document.getElementById('closeModal');
     const giftAmountElement = document.getElementById('giftAmount');
-    const copyPixButton = document.getElementById('copyPix');
-    const pixDirectLink = document.getElementById('pixDirectLink');
 
-    // Atualizar o modal com o valor do presente
+    // Mapeamento de URIs da loja de apps para Android e iOS
+    const bankAppUris = {
+        'itau': {
+            android: 'market://details?id=com.itau',
+            ios: 'https://itunes.apple.com/app/id451457813'
+        },
+        'nubank': {
+            android: 'market://details?id=com.nubank',
+            ios: 'https://itunes.apple.com/br/app/nubank/id852230713?mt=8'
+        },
+        'bradesco': {
+            android: 'market://details?id=com.bradesco',
+            ios: 'https://itunes.apple.com/br/app/bradesco/id336954985'
+        },
+        'bancodobrasil': {
+            android: 'market://details?id=br.com.bb.android',
+            ios: 'https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8'
+        }
+    };
+    
+    // Adicionar eventos de clique para os botões de banco
+    document.querySelectorAll('.bank-options .bank-button').forEach(button => {
+        const bankName = button.querySelector('img').getAttribute('alt').toLowerCase();
+        button.addEventListener('click', (event) => {
+            const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isAndroid = /Android/.test(navigator.userAgent);
+            
+            if (isIos) {
+                event.target.href = bankAppUris[bankName].ios;
+            } else if (isAndroid) {
+                event.target.href = bankAppUris[bankName].android;
+            }
+        });
+    });
+
+    // Função para copiar o texto para a área de transferência
+    function copyTextToClipboard(text) {
+        if (!navigator.clipboard) {
+            fallbackCopyTextToClipboard(text);
+            return;
+        }
+        navigator.clipboard.writeText(text).then(() => {
+            console.log('Async: Copying to clipboard was successful!');
+        }, (err) => {
+            console.error('Async: Could not copy text: ', err);
+            fallbackCopyTextToClipboard(text);
+        });
+    }
+
+    // Função de fallback para navegadores sem suporte
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.top = '0';
+        textArea.style.left = '0';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            console.log('Fallback: Copying to clipboard was successful!');
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    // Event listener para os botões de presente
     giftButtons.forEach(button => {
         button.addEventListener('click', () => {
+            const itemId = button.getAttribute('data-item-id');
             const price = button.getAttribute('data-price');
-            const formattedPrice = parseFloat(price).toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            });
-
-            giftAmountElement.textContent = formattedPrice;
-            pixKeyElement.textContent = pixKey;
-
-            const pixLink = gerarPixLink(pixKey, coupleName, city, parseFloat(price));
-            pixDirectLink.href = pixLink;
-
-            pixModal.style.display = 'flex';
+            
+            const pixPayload = pixPayloadsById[itemId];
+            
+            if (pixPayload) {
+                const formattedPrice = parseFloat(price).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                
+                // Copia o código PIX para a área de transferência
+                copyTextToClipboard(pixPayload);
+                
+                // Exibe o modal
+                giftAmountElement.textContent = formattedPrice;
+                pixModal.style.display = 'flex';
+            } else {
+                alert('Ops! O código PIX para este item não foi encontrado. Tente novamente.');
+            }
         });
     });
 
@@ -908,51 +1019,6 @@
         }
     });
 
-    // Copiar chave PIX
-    copyPixButton.addEventListener('click', () => {
-        const textArea = document.createElement('textarea');
-        textArea.value = pixKey;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-
-        copyPixButton.innerHTML = '<i class="fas fa-check"></i> Chave Copiada!';
-        setTimeout(() => {
-            copyPixButton.innerHTML = '<i class="fas fa-copy"></i> Copiar Chave';
-        }, 2000);
-    });
-
-    // Aviso sobre links PIX
-    pixDirectLink.addEventListener('click', function(e) {
-        if (!confirm('Você será redirecionado para seu aplicativo bancário. Deseja continuar?')) {
-            e.preventDefault();
-        }
-    });
-
-    // Função que gera o link Pix com base no valor
-    function gerarPixLink(chave, nome, cidade, valor) {
-        const clean = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9 ]/g, '');
-
-        const valorFormatado = valor.toFixed(2);
-        const nomeLimpo = clean(nome).substring(0, 25);
-        const cidadeLimpa = clean(cidade).substring(0, 15);
-
-        const payload = [
-            '000201',
-            '26360014BR.GOV.BCB.PIX',
-            `0114${chave}`,
-            '52040000',
-            '5303986',
-            `54${valorFormatado.length}${valorFormatado}`,
-            '5802BR',
-            `59${nomeLimpo.length}${nomeLimpo}`,
-            `60${cidadeLimpa.length}${cidadeLimpa}`,
-            '62070503***'
-        ].join('');
-
-        return `pix://pay?payload=${encodeURIComponent(payload)}`;
-    }
 </script>
 
 </body>
