@@ -280,6 +280,7 @@
             align-items: center;
             gap: 8px;
             transition: var(--transition);
+            cursor: pointer;
         }
         
         .bank-button:hover {
@@ -400,7 +401,7 @@
         <a href="../index.html" class="back-button">Voltar para o Site</a>
     </header>
 
-    <section class="gift-list">
+<section class="gift-list">
         <div class="container">
             <h2 class="section-title">Lista de Presentes</h2>
             
@@ -817,7 +818,6 @@
             </div>
         </div>
     </section>
-
     <div class="pix-modal-container" id="pixModal">
         <div class="pix-modal-content">
             <span class="close-modal" id="closeModal">&times;</span>
@@ -833,19 +833,19 @@
 
             <h4 style="margin-top: 2rem; color: var(--secondary);">Encontre seu banco:</h4>
             <div class="bank-options">
-                <a href="https://itunes.apple.com/app/id451457813" target="_blank" class="bank-button">
+                <a href="#" class="bank-button" data-bank="itau">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCVN47Gkh4j0CIv9hViguUm2GxbFzHrPmsbg&s" alt="Itaú">
                     <span>Itaú</span>
                 </a>
-                <a href="https://itunes.apple.com/br/app/nubank/id852230713?mt=8" target="_blank" class="bank-button">
+                <a href="#" class="bank-button" data-bank="nubank">
                     <img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-2.png" alt="Nubank">
                     <span>Nubank</span>
                 </a>
-                <a href="https://itunes.apple.com/br/app/bradesco/id336954985" target="_blank" class="bank-button">
+                <a href="#" class="bank-button" data-bank="bradesco">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK2mM4mOcVKmmV6TKAYvvo6_fikW64JYBoOg&s" alt="Bradesco">
                     <span>Bradesco</span>
                 </a>
-                <a href="https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8" target="_blank" class="bank-button">
+                <a href="#" class="bank-button" data-bank="bancodobrasil">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeisONKtZWeQQAQwZcOXz-nUWnSPQ6MGUYHg&s" alt="Banco do Brasil">
                     <span>Banco do Brasil</span>
                 </a>
@@ -908,135 +908,143 @@
         'item40': '00020126360014BR.GOV.BCB.PIX0114519.509.498-505204000053039865405160.005802BR5915Leticia%20e%20Igor6012Porto%20Alegre62070503***'
     };
 
+
     // Elementos DOM
     const giftButtons = document.querySelectorAll('.gift-button');
     const pixModal = document.getElementById('pixModal');
     const closeModal = document.getElementById('closeModal');
     const giftAmountElement = document.getElementById('giftAmount');
 
-    // Mapeamento de URIs da loja de apps para Android e iOS
-    const bankAppUris = {
-        'itau': {
-            app: 'itau://',
-            storeIos: 'https://itunes.apple.com/app/id451457813',
-            storeAndroid: 'market://details?id=com.itau'
+    // Configurações dos aplicativos bancários
+    const bankApps = {
+        itau: {
+            scheme: 'itau',
+            androidPackage: 'com.itau',
+            iosUrl: 'https://itunes.apple.com/app/id451457813',
+            androidStore: 'https://play.google.com/store/apps/details?id=com.itau'
         },
-        'nubank': {
-            app: 'nubank://',
-            storeIos: 'https://itunes.apple.com/br/app/nubank/id852230713?mt=8',
-            storeAndroid: 'market://details?id=com.nubank'
+        nubank: {
+            scheme: 'nubank',
+            androidPackage: 'com.nu.production',
+            iosUrl: 'https://itunes.apple.com/br/app/nubank/id852230713?mt=8',
+            androidStore: 'https://play.google.com/store/apps/details?id=com.nu.production'
         },
-        'bradesco': {
-            app: 'bradesco://',
-            storeIos: 'https://itunes.apple.com/br/app/bradesco/id336954985',
-            storeAndroid: 'market://details?id=com.bradesco'
+        bradesco: {
+            scheme: 'bradesco',
+            androidPackage: 'com.bradesco',
+            iosUrl: 'https://itunes.apple.com/br/app/bradesco/id336954985',
+            androidStore: 'https://play.google.com/store/apps/details?id=com.bradesco'
         },
-        'bancodobrasil': {
-            app: 'bb.com.br://',
-            storeIos: 'https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8',
-            storeAndroid: 'market://details?id=br.com.bb.android'
+        bancodobrasil: {
+            scheme: 'bb.com.br',
+            androidPackage: 'br.com.bb.android',
+            iosUrl: 'https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8',
+            androidStore: 'https://play.google.com/store/apps/details?id=br.com.bb.android'
         }
     };
-    
-    // Adicionar eventos de clique para os botões de banco
-    document.querySelectorAll('.bank-options .bank-button').forEach(button => {
-        const bankName = button.querySelector('img').getAttribute('alt').toLowerCase();
+
+    // Função para abrir aplicativos bancários com fallback
+    function openBankApp(bankKey) {
+        const bank = bankApps[bankKey];
+        if (!bank) return;
+
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         
-        button.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede o comportamento padrão do link
-
-            const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isAndroid = /Android/.test(navigator.userAgent);
+        if (isAndroid) {
+            // Tenta abrir via intent com fallback
+            window.location.href = `intent://${bank.scheme}/#Intent;scheme=${bank.scheme};package=${bank.androidPackage};end`;
             
-            const bankUris = bankAppUris[bankName];
+            // Fallback para Play Store
+            setTimeout(() => {
+                if (!document.hidden) {
+                    window.location.href = bank.androidStore;
+                }
+            }, 500);
+            
+        } else if (isIOS) {
+            // Tenta abrir app diretamente
+            window.location.href = `${bank.scheme}://`;
+            
+            // Fallback para App Store
+            setTimeout(() => {
+                if (!document.hidden) {
+                    window.location.href = bank.iosUrl;
+                }
+            }, 500);
+        } else {
+            // Desktop - abre em nova aba
+            window.open(bank.androidStore, '_blank');
+        }
+    }
 
-            if (bankUris) {
-                // Tenta abrir o aplicativo com o deep link
-                window.location.href = bankUris.app;
-
-                // Define um fallback para a loja de aplicativos
-                setTimeout(() => {
-                    // Se o aplicativo não abrir em 500ms, redireciona para a loja
-                    if (isIos) {
-                        window.location.href = bankUris.storeIos;
-                    } else if (isAndroid) {
-                        window.location.href = bankUris.storeAndroid;
-                    }
-                }, 500);
+    // Event listeners para botões de banco
+    document.querySelectorAll('.bank-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const bankKey = button.getAttribute('data-bank');
+            if (bankKey) {
+                openBankApp(bankKey);
             }
         });
     });
 
-    // Função para copiar o texto para a área de transferência
+    // Função para copiar texto para área de transferência
     function copyTextToClipboard(text) {
-        if (!navigator.clipboard) {
-            fallbackCopyTextToClipboard(text);
-            return;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text)
+                .catch(err => console.error('Erro ao copiar: ', err));
+        } else {
+            // Fallback para navegadores antigos
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback copy error: ', err);
+            }
+            document.body.removeChild(textArea);
         }
-        navigator.clipboard.writeText(text).then(() => {
-            console.log('Async: Copying to clipboard was successful!');
-        }, (err) => {
-            console.error('Async: Could not copy text: ', err);
-            fallbackCopyTextToClipboard(text);
-        });
     }
 
-    // Função de fallback para navegadores sem suporte
-    function fallbackCopyTextToClipboard(text) {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.top = '0';
-        textArea.style.left = '0';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            console.log('Fallback: Copying to clipboard was successful!');
-        } catch (err) {
-            console.error('Fallback: Oops, unable to copy', err);
-        }
-        document.body.removeChild(textArea);
-    }
-
-    // Event listener para os botões de presente
+    // Event listeners para botões de presente
     giftButtons.forEach(button => {
         button.addEventListener('click', () => {
             const itemId = button.getAttribute('data-item-id');
             const price = button.getAttribute('data-price');
-            
             const pixPayload = pixPayloadsById[itemId];
             
             if (pixPayload) {
+                // Formata o valor
                 const formattedPrice = parseFloat(price).toLocaleString('pt-BR', {
                     style: 'currency',
                     currency: 'BRL'
                 });
                 
-                // Copia o código PIX para a área de transferência
+                // Copia o payload PIX
                 copyTextToClipboard(pixPayload);
                 
-                // Exibe o modal
+                // Atualiza e mostra o modal
                 giftAmountElement.textContent = formattedPrice;
                 pixModal.style.display = 'flex';
             } else {
-                alert('Ops! O código PIX para este item não foi encontrado. Tente novamente.');
+                alert('Item não encontrado! Por favor, tente novamente.');
             }
         });
     });
 
-    // Fechar o modal
+    // Fechar modal
     closeModal.addEventListener('click', () => {
         pixModal.style.display = 'none';
     });
 
-    window.addEventListener('click', (event) => {
-        if (event.target === pixModal) {
+    window.addEventListener('click', (e) => {
+        if (e.target === pixModal) {
             pixModal.style.display = 'none';
         }
     });
-
 </script>
 
 </body>
