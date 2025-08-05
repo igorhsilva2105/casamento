@@ -952,79 +952,70 @@
     const giftAmountElement = document.getElementById('giftAmount');
 
     // Configurações dos aplicativos bancários
-    const bankApps = {
-        itau: {
-            scheme: 'itau',
-            androidPackage: 'com.itau',
-            iosUrl: 'https://itunes.apple.com/app/id451457813',
-            androidStore: 'https://play.google.com/store/apps/details?id=com.itau'
-        },
-        nubank: {
-            scheme: 'nubank',
-            androidPackage: 'com.nu.production',
-            iosUrl: 'https://itunes.apple.com/br/app/nubank/id852230713?mt=8',
-            androidStore: 'https://play.google.com/store/apps/details?id=com.nu.production'
-        },
-        bradesco: {
-            scheme: 'bradesco',
-            androidPackage: 'com.bradesco',
-            iosUrl: 'https://itunes.apple.com/br/app/bradesco/id336954985',
-            androidStore: 'https://play.google.com/store/apps/details?id=com.bradesco'
-        },
-        bancodobrasil: {
-            scheme: 'bb.com.br',
-            androidPackage: 'br.com.bb.android',
-            iosUrl: 'https://itunes.apple.com/br/app/bb-banco-do-brasil/id330984271?mt=8',
-            androidStore: 'https://play.google.com/store/apps/details?id=br.com.bb.android'
-        }
-    };
-
-    // Função para abrir aplicativos bancários com fallback
-    function openBankApp(bankKey) {
-        const bank = bankApps[bankKey];
-        if (!bank) return;
-
-        const isAndroid = /Android/.test(navigator.userAgent);
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        
-        if (isAndroid) {
-            // Tenta abrir via intent com fallback
-            window.location.href = `intent://${bank.scheme}/#Intent;scheme=${bank.scheme};package=${bank.androidPackage};end`;
-            
-            // Fallback para Play Store
-            setTimeout(() => {
-                if (!document.hidden) {
-                    window.location.href = bank.androidStore;
-                }
-            }, 500);
-            
-        } else if (isIOS) {
-            // Tenta abrir app diretamente
-            window.location.href = `${bank.scheme}://`;
-            
-            // Fallback para App Store
-            setTimeout(() => {
-                if (!document.hidden) {
-                    window.location.href = bank.iosUrl;
-                }
-            }, 500);
-        } else {
-            // Desktop - abre em nova aba
-            window.open(bank.androidStore, '_blank');
-        }
+const bankApps = {
+    itau: {
+        scheme: 'itau',
+        androidPackage: 'com.itau',
+        iosUrl: 'https://apps.apple.com/app/id451457813',
+        androidStore: 'https://play.google.com/store/apps/details?id=com.itau'
+    },
+    nubank: {
+        scheme: 'nubank',
+        androidPackage: 'com.nu.production',
+        iosUrl: 'https://apps.apple.com/br/app/nubank/id852230713',
+        androidStore: 'https://play.google.com/store/apps/details?id=com.nu.production'
+    },
+    bradesco: {
+        scheme: 'bradesco',
+        androidPackage: 'com.bradesco',
+        iosUrl: 'https://apps.apple.com/br/app/banco-bradesco/id336954985',
+        androidStore: 'https://play.google.com/store/apps/details?id=com.bradesco'
+    },
+    bancodobrasil: {
+        scheme: 'bb',
+        androidPackage: 'br.com.bb.android',
+        iosUrl: 'https://apps.apple.com/br/app/bb-banco-do-brasil/id330984271',
+        androidStore: 'https://play.google.com/store/apps/details?id=br.com.bb.android'
     }
+};
 
-    // Event listeners para botões de banco
-    document.querySelectorAll('.bank-button').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const bankKey = button.getAttribute('data-bank');
-            if (bankKey) {
-                openBankApp(bankKey);
+// Função para abrir aplicativos bancários com fallback
+function openBankApp(bankKey) {
+    const bank = bankApps[bankKey];
+    if (!bank) return;
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+        // Tenta abrir via protocolo, se não, vai para a Play Store
+        window.location.href = `${bank.scheme}://`;
+        setTimeout(() => {
+            if (!document.hidden) {
+                window.location.href = bank.androidStore;
             }
-        });
-    });
+        }, 800);
+    } else if (isIOS) {
+        // Tenta abrir via protocolo, se não, vai para App Store
+        window.location.href = `${bank.scheme}://`;
+        setTimeout(() => {
+            if (!document.hidden) {
+                window.location.href = bank.iosUrl;
+            }
+        }, 1200);
+    } else {
+        alert('Recurso disponível apenas no celular. Por favor, abra esta página em seu smartphone.');
+    }
+}
 
+// Adiciona o evento nos botões dos bancos
+document.querySelectorAll('.bank-button').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const bankKey = this.getAttribute('data-bank');
+        openBankApp(bankKey);
+    });
+});
     // Função para copiar texto para área de transferência
     function copyTextToClipboard(text) {
         if (navigator.clipboard) {
