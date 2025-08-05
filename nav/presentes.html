@@ -988,15 +988,14 @@ function openBankApp(bankKey) {
     const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
 
     if (isAndroid) {
-        // Tenta abrir via protocolo, se não, vai para a Play Store
-        window.location.href = `${bank.scheme}://`;
+        // Usa intent:// para Android
+        window.location.href = `intent://#Intent;scheme=${bank.scheme};package=${bank.androidPackage};end`;
         setTimeout(() => {
             if (!document.hidden) {
                 window.location.href = bank.androidStore;
             }
         }, 800);
     } else if (isIOS) {
-        // Tenta abrir via protocolo, se não, vai para App Store
         window.location.href = `${bank.scheme}://`;
         setTimeout(() => {
             if (!document.hidden) {
@@ -1004,7 +1003,7 @@ function openBankApp(bankKey) {
             }
         }, 1200);
     } else {
-        alert('Recurso disponível apenas no celular. Por favor, abra esta página em seu smartphone.');
+        alert('Recurso disponível apenas no celular.');
     }
 }
 
