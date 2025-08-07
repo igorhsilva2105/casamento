@@ -449,6 +449,7 @@
                     <li>Siga as instruções para copiar o código e pagar</li>
                 </ol>
             </div>
+            <input type="text" id="gift-search" placeholder="Pesquisar presente..." style="margin-bottom:20px; width:100%; max-width:400px; padding:8px; font-size:16px;">
             <div class="gift-container">
                 <div class="gift-item">
                     <div class="gift-tag">Mais Popular</div>
@@ -1071,6 +1072,22 @@ document.querySelectorAll('.bank-button').forEach(btn => {
             pixModal.style.display = 'none';
         }
     });
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('gift-search');
+    const gifts = document.querySelectorAll('.gift-container .gift-item');
+    
+    searchInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      gifts.forEach(function(item) {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(query)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
 </script>
 
 </body>
