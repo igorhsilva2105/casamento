@@ -400,16 +400,46 @@
             font-weight: 500;
             z-index: 1;
         }
-        #gift-search {
-            margin: 0px auto 25px auto; 
-            width:100%; 
-            padding:8px; 
-            font-size:16px;
-            border-radius: 12px;
-            border: 1px solid #000;
-            box-shadow: var(--shadow);
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            width: 100%;
         }
         
+        #gift-search {
+            width: 100%;
+            padding: 15px 20px 15px 55px;
+            font-size: 16px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            background-color: var(--light);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            outline: none;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        #gift-search:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.2);
+        }
+        
+        #gift-search::placeholder {
+            color: #a2836e;
+            font-style: italic;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+            font-size: 18px;
+            pointer-events: none;
+        }
         .instructions {
             background: #f0f8ff;
             padding: 1.5rem;
@@ -577,7 +607,10 @@
                 </ol>
             </div>
             <h2>Pesquisar Presente</h2>
-            <input type="text" id="gift-search" placeholder="Digite para iniciar a pesquisa...">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="gift-search" placeholder="Digite para pesquisar um presente...">
+            </div>
             <div class="gift-container">
                 <div class="gift-item">
                     <div class="gift-image">
