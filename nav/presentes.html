@@ -430,6 +430,131 @@
         .instructions li {
             margin-bottom: 0.5rem;
         }
+        /* ============================================= */
+/* ESTILO PARA PRESENTES JÁ ENTREGUES */
+/* ============================================= */
+
+.gift-given {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #f8e0b0;
+    box-shadow: 0 5px 25px rgba(248, 224, 176, 0.4);
+    transform: scale(0.98);
+    transition: all 0.4s ease;
+}
+
+/* Selo festivo "Presenteado" */
+.gift-given::before {
+    content: "Presenteado";
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    width: 160px;
+    padding: 10px 0;
+    background: linear-gradient(45deg, #d4af37, #f8e0b0);
+    color: #8c6d46;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-align: center;
+    letter-spacing: 1px;
+    transform: rotate(45deg);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    z-index: 10;
+    animation: stamp-appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Overlay dourado na imagem */
+.gift-given .gift-image::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(248, 224, 176, 0.25));
+    z-index: 1;
+    animation: golden-glow 3s infinite alternate;
+}
+
+/* Efeito de brilho pulsante */
+@keyframes golden-glow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.6; }
+}
+
+/* Animação de entrada do selo */
+@keyframes stamp-appear {
+    0% { 
+        transform: rotate(45deg) scale(0.1); 
+        opacity: 0; 
+    }
+    80% { 
+        transform: rotate(45deg) scale(1.1); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: rotate(45deg) scale(1); 
+    }
+}
+
+/* Confetes decorativos */
+.gift-given .gift-image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="10" cy="15" r="3" fill="%23d4af37"/><circle cx="50" cy="5" r="2" fill="%23f8e0b0"/><circle cx="90" cy="20" r="3" fill="%23d4af37"/><circle cx="130" cy="10" r="2" fill="%23f8e0b0"/><circle cx="170" cy="25" r="3" fill="%23d4af37"/><circle cx="30" cy="40" r="2" fill="%23f8e0b0"/><circle cx="70" cy="35" r="3" fill="%23d4af37"/><circle cx="110" cy="45" r="2" fill="%23f8e0b0"/><circle cx="150" cy="30" r="3" fill="%23d4af37"/><circle cx="190" cy="50" r="2" fill="%23f8e0b0"/></svg>');
+    opacity: 0.7;
+    z-index: 2;
+    animation: confetti-fall 12s infinite linear;
+}
+
+@keyframes confetti-fall {
+    0% { background-position: 0 -100px; }
+    100% { background-position: 0 300px; }
+}
+
+/* Estilo para o botão substituído */
+.gift-given .gift-button {
+    display: none; /* Esconde o botão original */
+}
+
+/* Mensagem de agradecimento */
+.gift-given .gift-info::after {
+    content: "Obrigado pelo presente! ❤️";
+    display: block;
+    width: 90%;
+    padding: 0.8rem;
+    background: linear-gradient(to right, #f8f3ed, #f8e0b0);
+    color: #8c6d46;
+    border: 1px solid #f8d7a4;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1rem;
+    margin-top: 10px;
+    animation: thank-you-pulse 2s infinite;
+}
+
+/* Animação pulsante para a mensagem */
+@keyframes thank-you-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(248, 224, 176, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(248, 224, 176, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(248, 224, 176, 0); }
+}
+
+/* Degradê dourado na borda */
+.gift-given {
+    background: linear-gradient(white, white), 
+                linear-gradient(to right, #f8e0b0, #d4af37);
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    border: 2px solid transparent;
+         }
     </style>
 </head>
 <body>
@@ -474,12 +599,11 @@
                         <button class="gift-button" data-price="70.92" data-item-id="item2">Presentear com PIX</button>
                     </div>
                 </div>
-                <div class="gift-item">
+                <div class="gift-item gift-given">
                     <div class="gift-image">
                         <img src="https://storage.googleapis.com/icasei-products-prod/couple/1427575/images/4350288/1751408402/site-de-casamento-icasei-lp-0000000112281684.webp">
                     </div>
                     <div class="gift-info">
-                        <div class="gift-tag">Mais Popular</div>
                         <h3 class="gift-name">Aparelho de jantar</h3>
                         <div class="gift-price">R$ 70,92</div>
                         <button class="gift-button" data-price="70.92" data-item-id="item3">Presentear com PIX</button>
