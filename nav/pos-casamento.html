@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Casamento | Letícia & Igor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d4b996;
+            --secondary: #8c6d46;
+            --accent: #a2836e;
+            --light: #f8f3ed;
+            --dark: #3c2f2f;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .container p {
+            padding-left: 5px;
+            text-align: justify
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('../img/casaamento.png') no-repeat 45% center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .couple-names {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        .wedding-date {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .celebration-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            max-width: 800px;
+            width: 90%;
+        }
+        
+        .celebration-message {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .married-date {
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+        
+        /* Main Content */
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            color: var(--secondary);
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        /* Our Story */
+        .our-story {
+            background-color: white;
+        }
+        
+        .story-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .story-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        .story-text p {
+            text-align: justify;
+        }
+        
+        .story-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .story-image img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Photo Gallery */
+        .photo-gallery {
+            background-color: var(--light);
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 250px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .view-more {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .view-more-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        
+        .view-more-button:hover {
+            background: var(--secondary);
+        }
+        
+        /* Event Details */
+        .event-details {
+            background-color: white;
+        }
+        
+        .events-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            transition: var(--transition);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .event-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-info {
+            padding: 1.5rem;
+        }
+        
+        .event-title {
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+        
+        .event-time, .event-address {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-icon {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .map-container {
+            height: 250px;
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        /* Thank You Section */
+        .thank-you {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+        
+        .thank-you-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .thank-you-message {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .footer-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .couple-names {
+                font-size: 3rem;
+            }
+            
+            .celebration-message {
+                font-size: 1.5rem;
+            }
+            
+            .married-date {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .story-content {
+                flex-direction: column;
+            }
+            
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .couple-names {
+                font-size: 2.2rem;
+            }
+            
+            .wedding-date {
+                font-size: 1rem;
+            }
+            
+            .celebration-message {
+                font-size: 1.2rem;
+            }
+            
+            .married-date {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header com Mensagem de Celebração -->
+    <header>
+        <h1 class="couple-names">Letícia & Igor</h1>
+        <p class="wedding-date">13 de Setembro de 2025</p>
+        
+        <div class="celebration-container">
+            <div class="celebration-message">Obrigado por Celebrar Conosco!</div>
+            <div class="married-date">Agora oficialmente casados</div>
+        </div>
+    </header>
+
+    <!-- Nossa História -->
+    <section class="our-story">
+        <div class="container">
+            <h2 class="section-title">Nossa História</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>Nos conhecemos na escola, onde nossos caminhos se cruzaram pela primeira vez. Desde o primeiro momento, senti que ela era alguém muito especial, embora na época não pudesse imaginar o quanto essa pessoa iria se tornar importante na minha vida. Ao longo do tempo, enfrentamos desencontros e a distância, mas o destino sempre pareceu insistir em nos unir novamente, fortalecendo nossa conexão a cada reencontro. Com o passar dos anos, construímos uma relação sólida e autêntica, baseada em conversas profundas, confiança mútua e aprendizado contínuo um com o outro. E agora, após tudo o que passamos juntos, demos o próximo passo, compartilhando nossos sonhos, enfrentando desafios e celebrando alegrias lado a lado. Com esperança e amor no coração, seguimos juntos, cientes de que nossa história ainda tem muitos capítulos felizes pela frente.</p>
+                </div>
+                <div class="story-image">
+                    <img src="../img/us.jpg" alt="Foto do casal">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria de Fotos -->
+    <section class="photo-gallery">
+        <div class="container">
+            <h2 class="section-title">Nossas Fotos</h2>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="../img/foto01.png" alt="Foto do casamento">
+                </div>
+                <div class="gallery-item">
+                    <img src="../img/foto02.png" alt="Foto do casamento">
+                </div>
+                <div class="gallery-item">
+                    <img src="../img/foto03.png" alt="Foto do casamento">
+                </div>
+                <div class="gallery-item">
+                    <img src="../img/foto04.png" alt="Foto do casamento">
+                </div>
+                <div class="gallery-item">
+                    <img src="../img/foto05.png" alt="Foto do casamento">
+                </div>
+                <div class="gallery-item">
+                    <img src="../img/foto06.png" alt="Foto do casamento">
+                </div>
+            </div>
+            <div class="view-more">
+                <a href="#" class="view-more-button">Ver Mais Fotos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detalhes do Evento (como foi) -->
+    <section class="event-details">
+        <div class="container">
+            <h2 class="section-title">Como Foi Especial</h2>
+            <div class="events-container">
+                <!-- Cerimônia -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="https://diocesedetaubate.org.br/wp-content/uploads/2013/05/fachada-saopiox.jpg" alt="Local da cerimônia">
+                    </div>
+                    <div class="event-info">
+                        <h3 class="event-title">Cerimônia</h3>
+                        <div class="event-time">
+                            <i class="fas fa-clock event-icon"></i>
+                            <span>19:30 horas</span>
+                        </div>
+                        <div class="event-address">
+                            <i class="fas fa-map-marker-alt event-icon"></i>
+                            <span>Paróquia São Pio X - Igreja Matriz de São Benedito<br>R. Ten. Mesquita, 285 - Vila Pantaleao, Caçapava - SP, 12280-048</span>
+                        </div>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.069335930119!2d-45.71038432392781!3d-23.094557544610243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc51739fd171ab%3A0xa0488dee36776383!2sPar%C3%B3quia%20S%C3%A3o%20Pio%20X%20-%20Igreja%20Matriz%20de%20S%C3%A3o%20Benedito!5e0!3m2!1spt-BR!2sbr!4v1753198557151!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recepção -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="../img/chacara.png" alt="Local da recepção">
+                    </div>
+                    <div class="event-info">
+                        <h3 class="event-title">Recepção</h3>
+                        <div class="event-time">
+                            <i class="fas fa-clock event-icon"></i>
+                            <span>21:00 horas</span>
+                        </div>
+                        <div class="event-address">
+                            <i class="fas fa-map-marker-alt event-icon"></i>
+                            <span>Rua Mario Fouler - Caçapava (Chácara Recanto da Serra)</span>
+                        </div>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.7356965334307!2d-45.627855499999995!3d-23.143334199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc55ac3b163197%3A0x27c466e122f4d0ee!2sRecanto%20da%20Serra!5e0!3m2!1spt-BR!2sbr!4v1753198685077!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agradecimento -->
+    <section class="thank-you">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Agradecimento</h2>
+            <div class="thank-you-content">
+                <p class="thank-you-message">
+                    Queridos familiares e amigos,<br><br>
+                    Agradecemos imensamente por fazerem parte do nosso dia especial. Cada sorriso, abraço e momento compartilhado conosco no nosso casamento ficará guardado para sempre em nossos corações. Vocês tornaram esse dia ainda mais memorável e significativo.<br><br>
+                    Com amor,<br>
+                    Letícia & Igor
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 class="footer-title">Obrigado por fazer parte do nosso dia especial!</h3>
+            <p class="footer-text">Cada momento compartilhado conosco será guardado para sempre em nossas memórias. Sua presença foi o presente mais valioso que poderíamos receber.</p>
+            <p class="copyright" style="text-align:center;">© 2025 Letícia & Igor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
