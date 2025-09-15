@@ -50,7 +50,7 @@
         
         /* Header */
         header {
-            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('../img/casaamento.png') no-repeat 45% center/cover;
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('https://placehold.co/1200x800?text=Letícia+&+Igor') no-repeat 45% center/cover;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -173,6 +173,7 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             height: 250px;
+            position: relative;
         }
         
         .gallery-item:hover {
@@ -183,6 +184,22 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        
+        .photo-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
         }
         
         .view-more {
@@ -207,6 +224,21 @@
         /* Event Details */
         .event-details {
             background-color: white;
+        }
+        
+        .event-banner {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .event-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .events-container {
@@ -267,6 +299,114 @@
             margin-top: 1rem;
             border-radius: 10px;
             overflow: hidden;
+        }
+        
+        /* Achados e Perdidos */
+        .lost-found {
+            background-color: var(--light);
+        }
+        
+        .items-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .item-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .item-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-info {
+            padding: 1rem;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .item-description {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-contact {
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        
+        /* Presentes */
+        .gifts {
+            background-color: white;
+        }
+        
+        .gifts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gift-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .gift-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gift-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .gift-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gift-info {
+            padding: 1rem;
+        }
+        
+        .gift-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .gift-giver {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gift-status {
+            font-size: 0.9rem;
+            color: var(--accent);
         }
         
         /* Thank You Section */
@@ -361,6 +501,14 @@
             .gallery-container {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
+            
+            .items-container, .gifts-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .event-banner {
+                height: 200px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -378,6 +526,14 @@
             
             .married-date {
                 font-size: 1rem;
+            }
+            
+            .items-container, .gifts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-banner {
+                height: 150px;
             }
         }
     </style>
@@ -403,7 +559,7 @@
                     <p>Nos conhecemos na escola, onde nossos caminhos se cruzaram pela primeira vez. Desde o primeiro momento, senti que ela era alguém muito especial, embora na época não pudesse imaginar o quanto essa pessoa iria se tornar importante na minha vida. Ao longo do tempo, enfrentamos desencontros e a distância, mas o destino sempre pareceu insistir em nos unir novamente, fortalecendo nossa conexão a cada reencontro. Com o passar dos anos, construímos uma relação sólida e autêntica, baseada em conversas profundas, confiança mútua e aprendizado contínuo um com o outro. E agora, após tudo o que passamos juntos, demos o próximo passo, compartilhando nossos sonhos, enfrentando desafios e celebrando alegrias lado a lado. Com esperança e amor no coração, seguimos juntos, cientes de que nossa história ainda tem muitos capítulos felizes pela frente.</p>
                 </div>
                 <div class="story-image">
-                    <img src="../img/us.jpg" alt="Foto do casal">
+                    <img src="https://placehold.co/600x400?text=Letícia+&+Igor" alt="Foto do casal">
                 </div>
             </div>
         </div>
@@ -415,22 +571,28 @@
             <h2 class="section-title">Nossas Fotos</h2>
             <div class="gallery-container">
                 <div class="gallery-item">
-                    <img src="../img/foto01.png" alt="Foto do casamento">
+                    <div class="photo-number">1</div>
+                    <img src="" alt="Foto do casamento" class="gallery-photo">
                 </div>
                 <div class="gallery-item">
-                    <img src="../img/foto02.png" alt="Foto do casamento">
+                    <div class="photo-number">2</div>
+                    <img src="" alt="Foto do casamento" class="gallery-photo">
                 </div>
                 <div class="gallery-item">
-                    <img src="../img/foto03.png" alt="Foto do casamento">
+                    <div class="photo-number">3</div>
+                    <img src="" alt="Foto do casamento" class="gallery-photo">
                 </div>
                 <div class="gallery-item">
-                    <img src="../img/foto04.png" alt="Foto do casamento">
+                    <div class="photo-number">4</div>
+                    <img src="" alt="Foto do casamento" class="gallery-photo">
                 </div>
                 <div class="gallery-item">
-                    <img src="../img/foto05.png" alt="Foto do casamento">
+                    <div class="photo-number">5</div>
+                    <img src="" alt="Foto do casamento" class="gallery-photo">
                 </div>
                 <div class="gallery-item">
-                    <img src="../img/foto06.png" alt="Foto do casamento">
+                    <div class="photo-number">6</div>
+                    <img src="" alt="Foto do casamento" class="gallery-photo">
                 </div>
             </div>
             <div class="view-more">
@@ -439,50 +601,108 @@
         </div>
     </section>
 
+    <!-- Achados e Perdidos -->
+    <section class="lost-found">
+        <div class="container">
+            <h2 class="section-title">Achados e Perdidos</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Alguns itens foram esquecidos na festa. Se reconhecer algo seu, entre em contato conosco!</p>
+            
+            <div class="items-container">
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://placehold.co/300x200?text=Touca" alt="Item esquecido 1">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Touca</div>
+                        <div class="item-description">Touca media da marca Wild, deixado em uma das mesas próximas a picina.</div>
+                        <div class="item-contact">Entrar em contato: (12) 99227-5443</div>
+                    </div>
+                </div>
+                
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://placehold.co/300x200?text=Gloss+Rosa" alt="Item esquecido 2">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Gloss Rosa</div>
+                        <div class="item-description">Gloss Rosa da marca Lip Gloss, com 7ML, deixada na mesa próxima há mesa de carne.</div>
+                        <div class="item-contact">Entrar em contato: (12) 99227-5443</div>
+                    </div>
+                </div>
+                
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://placehold.co/300x200?text=Carregador+Preto" alt="Item esquecido 3">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Carregador preto</div>
+                        <div class="item-description">Carregador preto da Motorola, deixado dentro da casa.</div>
+                        <div class="item-contact">Entrar em contato: (12) 99227-5443</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Detalhes do Evento (como foi) -->
     <section class="event-details">
         <div class="container">
             <h2 class="section-title">Como Foi Especial</h2>
-            <div class="events-container">
-                <!-- Cerimônia -->
-                <div class="event-card">
-                    <div class="event-image">
-                        <img src="https://diocesedetaubate.org.br/wp-content/uploads/2013/05/fachada-saopiox.jpg" alt="Local da cerimônia">
+            
+            <div class="event-banner">
+                <img src="https://placehold.co/1200x300?text=Banner+do+Evento" alt="Banner do evento">
+            </div>
+        </div>
+    </section>
+
+    <!-- Presentes Comprados -->
+    <section class="gifts">
+        <div class="container">
+            <h2 class="section-title">Presentes Comprados</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Agradecemos imensamente por todos os presentes! Cada um tem um significado especial para nós.</p>
+            
+            <div class="gifts-container">
+                <div class="gift-card">
+                    <div class="gift-image">
+                        <img src="https://placehold.co/300x200?text=Jogo+de+Panelas" alt="Presente 1">
                     </div>
-                    <div class="event-info">
-                        <h3 class="event-title">Cerimônia</h3>
-                        <div class="event-time">
-                            <i class="fas fa-clock event-icon"></i>
-                            <span>19:30 horas</span>
-                        </div>
-                        <div class="event-address">
-                            <i class="fas fa-map-marker-alt event-icon"></i>
-                            <span>Paróquia São Pio X - Igreja Matriz de São Benedito<br>R. Ten. Mesquita, 285 - Vila Pantaleao, Caçapava - SP, 12280-048</span>
-                        </div>
-                        <div class="map-container">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.069335930119!2d-45.71038432392781!3d-23.094557544610243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc51739fd171ab%3A0xa0488dee36776383!2sPar%C3%B3quia%20S%C3%A3o%20Pio%20X%20-%20Igreja%20Matriz%20de%20S%C3%A3o%20Benedito!5e0!3m2!1spt-BR!2sbr!4v1753198557151!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
+                    <div class="gift-info">
+                        <div class="gift-name">Jogo de Panelas</div>
+                        <div class="gift-giver">De: Maria e João</div>
+                        <div class="gift-status">Entregue</div>
                     </div>
                 </div>
                 
-                <!-- Recepção -->
-                <div class="event-card">
-                    <div class="event-image">
-                        <img src="../img/chacara.png" alt="Local da recepção">
+                <div class="gift-card">
+                    <div class="gift-image">
+                        <img src="https://placehold.co/300x200?text=Liquidificador" alt="Presente 2">
                     </div>
-                    <div class="event-info">
-                        <h3 class="event-title">Recepção</h3>
-                        <div class="event-time">
-                            <i class="fas fa-clock event-icon"></i>
-                            <span>21:00 horas</span>
-                        </div>
-                        <div class="event-address">
-                            <i class="fas fa-map-marker-alt event-icon"></i>
-                            <span>Rua Mario Fouler - Caçapava (Chácara Recanto da Serra)</span>
-                        </div>
-                        <div class="map-container">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.7356965334307!2d-45.627855499999995!3d-23.143334199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc55ac3b163197%3A0x27c466e122f4d0ee!2sRecanto%20da%20Serra!5e0!3m2!1spt-BR!2sbr!4v1753198685077!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
+                    <div class="gift-info">
+                        <div class="gift-name">Liquidificador</div>
+                        <div class="gift-giver">De: Ana e Carlos</div>
+                        <div class="gift-status">Entregue</div>
+                    </div>
+                </div>
+                
+                <div class="gift-card">
+                    <div class="gift-image">
+                        <img src="https://placehold.co/300x200?text=Cafeteira" alt="Presente 3">
+                    </div>
+                    <div class="gift-info">
+                        <div class="gift-name">Cafeteira</div>
+                        <div class="gift-giver">De: Pedro e Marta</div>
+                        <div class="gift-status">Aguardando entrega</div>
+                    </div>
+                </div>
+                
+                <div class="gift-card">
+                    <div class="gift-image">
+                        <img src="https://placehold.co/300x200?text=Jogo+de+Toalhas" alt="Presente 4">
+                    </div>
+                    <div class="gift-info">
+                        <div class="gift-name">Jogo de Toalhas</div>
+                        <div class="gift-giver">De: Paulo e Lucia</div>
+                        <div class="gift-status">Entregue</div>
                     </div>
                 </div>
             </div>
@@ -507,10 +727,46 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <h3 class="footer-title">Obrigado por fazer parte do nosso dia especial!</h3>
-            <p class="footer-text">Cada momento compartilhado conosco será guardado para sempre em nossas memórias. Sua presença foi o presente mais valioso que poderíamos receber.</p>
+
             <p class="copyright" style="text-align:center;">© 2025 Letícia & Igor. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        // Função para gerar números aleatórios nas fotos e atualizar o src
+        function generatePhotoNumbers() {
+            // Defina o número máximo de fotos disponíveis
+            const totalPhotos = 50; // Você pode alterar este valor conforme necessário
+            
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            // Gerar números únicos para cada foto
+            const usedNumbers = new Set();
+            
+            galleryItems.forEach(item => {
+                let randomNumber;
+                // Garantir que o número seja único
+                do {
+                    randomNumber = Math.floor(Math.random() * totalPhotos) + 1;
+                } while (usedNumbers.has(randomNumber));
+                
+                usedNumbers.add(randomNumber);
+                
+                // Atualizar o número exibido
+                const numberElement = item.querySelector('.photo-number');
+                numberElement.textContent = randomNumber;
+                
+                // Atualizar o src da imagem
+                const imgElement = item.querySelector('.gallery-photo');
+                // Formatar o número com dois dígitos (ex: 1 → 01, 10 → 10)
+                const formattedNumber = randomNumber < 10 ? `0${randomNumber}` : `${randomNumber}`;
+                imgElement.src = `../img/foto${formattedNumber}.png`;
+                imgElement.alt = `Foto do casamento ${randomNumber}`;
+            });
+        }
+        
+        // Executa a função quando a página carregar
+        window.onload = generatePhotoNumbers;
+    </script>
 </body>
 </html>
