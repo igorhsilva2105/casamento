@@ -50,7 +50,7 @@
         
         /* Header */
         header {
-            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('https://placehold.co/1200x800?text=Letícia+&+Igor') no-repeat 45% center/cover;
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('../img/casaamento') no-repeat 45% center/cover;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -536,6 +536,125 @@
                 height: 150px;
             }
         }
+/* ============================================= */
+        /* ESTILO PARA ITENS RECUPERADOS */
+        /* ============================================= */
+        .item-recovered {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #a5d6a7;
+            box-shadow: 0 5px 25px rgba(165, 214, 167, 0.4);
+            transform: scale(0.98);
+            transition: all 0.4s ease;
+        }
+
+        /* Selo "Recuperado" */
+        .item-recovered::before {
+            content: "Recuperado";
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            width: 160px;
+            padding: 8px 0;
+            background: linear-gradient(45deg, #4caf50, #81c784);
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            letter-spacing: 1px;
+            transform: rotate(45deg);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            z-index: 10;
+            animation: stamp-appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Overlay verde na imagem */
+        .item-recovered .item-image::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(129, 199, 132, 0.25));
+            z-index: 1;
+            animation: green-glow 3s infinite alternate;
+        }
+
+        /* Efeito de brilho pulsante */
+        @keyframes green-glow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Animação de entrada do selo */
+        @keyframes stamp-appear {
+            0% { 
+                transform: rotate(45deg) scale(0.1); 
+                opacity: 0; 
+            }
+            80% { 
+                transform: rotate(45deg) scale(1.1); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: rotate(45deg) scale(1); 
+            }
+        }
+
+        /* Confetes decorativos */
+        .item-recovered .item-image::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="10" cy="15" r="3" fill="%234caf50"/><circle cx="50" cy="5" r="2" fill="%2381c784"/><circle cx="90" cy="20" r="3" fill="%234caf50"/><circle cx="130" cy="10" r="2" fill="%2381c784"/><circle cx="170" cy="25" r="3" fill="%234caf50"/><circle cx="30" cy="40" r="2" fill="%2381c784"/><circle cx="70" cy="35" r="3" fill="%234caf50"/><circle cx="110" cy="45" r="2" fill="%2381c784"/><circle cx="150" cy="30" r="3" fill="%234caf50"/><circle cx="190" cy="50" r="2" fill="%2381c784"/></svg>');
+            opacity: 0.7;
+            z-index: 2;
+            animation: confetti-fall 12s infinite linear;
+        }
+
+        @keyframes confetti-fall {
+            0% { background-position: 0 -100px; }
+            100% { background-position: 0 300px; }
+        }
+
+        /* Mensagem de agradecimento */
+        .item-recovered .item-info::after {
+            content: "Item recuperado! Obrigado! ❤️";
+            display: block;
+            width: 90%;
+            padding: 0.8rem;
+            background: linear-gradient(to right, var(--recovered-light), #c8e6c9);
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            animation: thank-you-pulse 2s infinite;
+        }
+
+        /* Animação pulsante para a mensagem */
+        @keyframes thank-you-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(165, 214, 167, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(165, 214, 167, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(165, 214, 167, 0); }
+        }
+
+        /* Degradê verde na borda */
+        .item-recovered {
+            background: linear-gradient(white, white), 
+                        linear-gradient(to right, #a5d6a7, #4caf50);
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+            border: 2px solid transparent;
+        }
     </style>
 </head>
 <body>
@@ -767,6 +886,57 @@
         
         // Executa a função quando a página carregar
         window.onload = generatePhotoNumbers;
+    </script>
+        <script>
+        function markAsRecovered(itemId) {
+            const item = document.getElementById(itemId);
+            item.classList.add('item-recovered');
+            
+            // Remover o botão após clicar
+            const button = item.querySelector('.recover-button');
+            button.style.display = 'none';
+            
+            // Adicionar efeito de confetes (opcional)
+            createConfettiEffect(item);
+        }
+        
+        function createConfettiEffect(element) {
+            // Criar elementos de confete
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '8px';
+                confetti.style.height = '8px';
+                confetti.style.background = ['#4caf50', '#81c784', '#a5d6a7'][Math.floor(Math.random() * 3)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '100';
+                
+                // Posicionar aleatoriamente
+                const rect = element.getBoundingClientRect();
+                const x = Math.random() * rect.width;
+                const y = -10;
+                
+                confetti.style.left = `${x}px`;
+                confetti.style.top = `${y}px`;
+                
+                element.style.position = 'relative';
+                element.appendChild(confetti);
+                
+                // Animação
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${rect.height + 10}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                });
+                
+                // Remover após a animação
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        }
     </script>
 </body>
 </html>
