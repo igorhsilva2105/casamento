@@ -719,7 +719,7 @@
             position: relative;
         }
         
-        .gallery-item .img-loading-spinner {
+        .img-loading-spinner {
             position: absolute;
             top: 0;
             left: 0;
@@ -733,7 +733,7 @@
             transition: opacity 0.3s ease;
         }
         
-        .gallery-item .img-loading-spinner::after {
+        .img-loading-spinner::after {
             content: "";
             width: 40px;
             height: 40px;
@@ -748,6 +748,7 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Apenas as imagens da galeria começam com opacidade 0 */
         .gallery-photo {
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -757,30 +758,8 @@
             opacity: 1;
         }
         
-        /* Para outras imagens no site */
-        .gallery-item .img-container {
-            position: relative;
-            display: inline-block;
-            max-width: 100%;
-            vertical-align: middle;
-            overflow: hidden;
-        }
-        
-        .gallery-item .img-loading-spinner.other {
-            background-color: #f8f9fa;
-        }
-        
-        .gallery-item img.img-loaded {
-            opacity: 1;
-            transition: opacity 0.3s ease-in-out;
-        }
-        
-        .gallery-item img:not(.gallery-photo) {
-            opacity: 0;
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
+        /* Para outras imagens no site - REMOVIDO o opacity: 0 */
+        /* Isso evita que outras imagens fiquem invisíveis */
     </style>
 </head>
 <body>
@@ -1028,7 +1007,7 @@
             <div class="thank-you-content">
                 <p class="thank-you-message">
                     Queridos familiares e amigos,<br><br>
-                    Agradecemos imensamente por fazerem parte do nosso dia especial. Cada sorriso, abraço e momento compartilhado conosco no nosso casamento ficará guardado para sempre em nossos corações. Vocês tornaram esse dia ainda mais memorável e significativo.<br><br>
+                    Agradecemos imensamente por fazerem parte do nosso dia especial. Cada sorriso, abraço và momento compartilhado conosco no nosso casamento ficará guardado para sempre em nossos corações. Vocês tornaram esse dia ainda mais memorável e significativo.<br><br>
                     Com amor,<br>
                     Letícia & Igor
                 </p>
@@ -1053,7 +1032,7 @@
             return array;
         }
 
-        // Função para adicionar spinners de carregamento
+        // Função para adicionar spinners de carregamento apenas para a galeria
         function addLoadingSpinners() {
             const galleryItems = document.querySelectorAll('.gallery-item');
             
