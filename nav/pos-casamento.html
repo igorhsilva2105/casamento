@@ -719,7 +719,7 @@
             position: relative;
         }
         
-        .img-loading-spinner {
+        .gallery-item .img-loading-spinner {
             position: absolute;
             top: 0;
             left: 0;
@@ -733,7 +733,7 @@
             transition: opacity 0.3s ease;
         }
         
-        .img-loading-spinner::after {
+        .gallery-item .img-loading-spinner::after {
             content: "";
             width: 40px;
             height: 40px;
@@ -758,7 +758,7 @@
         }
         
         /* Para outras imagens no site */
-        .img-container {
+        .gallery-item .img-container {
             position: relative;
             display: inline-block;
             max-width: 100%;
@@ -766,16 +766,16 @@
             overflow: hidden;
         }
         
-        .img-loading-spinner.other {
+        .gallery-item .img-loading-spinner.other {
             background-color: #f8f9fa;
         }
         
-        img.img-loaded {
+        .gallery-item img.img-loaded {
             opacity: 1;
             transition: opacity 0.3s ease-in-out;
         }
         
-        img:not(.gallery-photo) {
+        .gallery-item img:not(.gallery-photo) {
             opacity: 0;
             display: block;
             max-width: 100%;
