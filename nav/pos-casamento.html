@@ -711,56 +711,76 @@
             background-clip: padding-box, border-box;
             border: 2px solid transparent;
         }
-        /* Container para as imagens */
-.img-container {
-    position: relative;
-    display: inline-block;
-    max-width: 100%;
-    vertical-align: middle;
-    overflow: hidden;
-}
-
-/* Spinner de carregamento */
-.img-loading-spinner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f8f9fa;
-    z-index: 10;
-}
-
-.img-loading-spinner::after {
-    content: "";
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Estilo para quando a imagem carrega */
-img.img-loaded {
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-}
-
-img {
-    opacity: 0;
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
+        
+        /* ============================================= */
+        /* ESTILOS PARA ANIMAÇÃO DE CARREGAMENTO */
+        /* ============================================= */
+        .gallery-item {
+            position: relative;
+        }
+        
+        .img-loading-spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(248, 249, 250, 0.8);
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+        
+        .img-loading-spinner::after {
+            content: "";
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .gallery-photo {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .gallery-photo.img-loaded {
+            opacity: 1;
+        }
+        
+        /* Para outras imagens no site */
+        .img-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            vertical-align: middle;
+            overflow: hidden;
+        }
+        
+        .img-loading-spinner.other {
+            background-color: #f8f9fa;
+        }
+        
+        img.img-loaded {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        img:not(.gallery-photo) {
+            opacity: 0;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -1033,6 +1053,17 @@ img {
             return array;
         }
 
+        // Função para adicionar spinners de carregamento
+        function addLoadingSpinners() {
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            galleryItems.forEach(item => {
+                const spinner = document.createElement('div');
+                spinner.className = 'img-loading-spinner';
+                item.appendChild(spinner);
+            });
+        }
+
         // Função para gerar números aleatórios nas fotos e atualizar o src
         function generatePhotoNumbers() {
             const galleryItems = document.querySelectorAll('.gallery-item');
@@ -1055,6 +1086,30 @@ img {
                 const formattedNumber = randomNumber < 10 ? `0${randomNumber}` : `${randomNumber}`;
                 imgElement.src = `../img/Fotos/foto${formattedNumber}.png`;
                 imgElement.alt = `Foto do casamento ${randomNumber}`;
+                
+                // Adicionar evento de load para cada imagem
+                imgElement.addEventListener('load', function() {
+                    this.classList.add('img-loaded');
+                    const spinner = this.parentNode.querySelector('.img-loading-spinner');
+                    if (spinner) {
+                        spinner.style.opacity = '0';
+                        setTimeout(() => {
+                            if (spinner.parentNode) {
+                                spinner.parentNode.removeChild(spinner);
+                            }
+                        }, 300);
+                    }
+                });
+                
+                // Adicionar evento de error
+                imgElement.addEventListener('error', function() {
+                    const spinner = this.parentNode.querySelector('.img-loading-spinner');
+                    if (spinner) {
+                        spinner.innerHTML = 'Erro ao carregar';
+                        spinner.style.background = '#ffebee';
+                        spinner.style.color = '#c62828';
+                    }
+                });
             });
         }
         
@@ -1149,76 +1204,10 @@ img {
         
         // Executar funções quando a página carregar
         window.onload = function() {
-            generatePhotoNumbers();
+            addLoadingSpinners(); // Adicionar spinners primeiro
+            generatePhotoNumbers(); // Depois carregar as imagens
             initGiftsCarousel();
         };
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    // Encontrar e processar todas as imagens
-    function processImages() {
-        const images = document.querySelectorAll('img');
-        
-        images.forEach(img => {
-            // Se a imagem já foi processada, pular
-            if (img.parentNode.classList.contains('img-container')) {
-                return;
-            }
-            
-            // Criar container para a imagem
-            const container = document.createElement('div');
-            container.className = 'img-container';
-            
-            // Colocar a imagem dentro do container
-            img.parentNode.insertBefore(container, img);
-            container.appendChild(img);
-            
-            // Adicionar spinner de carregamento
-            const spinner = document.createElement('div');
-            spinner.className = 'img-loading-spinner';
-            container.appendChild(spinner);
-            
-            // Verificar se a imagem já está carregada
-            if (img.complete) {
-                imageLoaded(img);
-            } else {
-                img.addEventListener('load', () => imageLoaded(img));
-                img.addEventListener('error', () => imageError(img));
-            }
-        });
-    }
-    
-    // Quando a imagem carrega
-    function imageLoaded(img) {
-        img.classList.add('img-loaded');
-        const container = img.parentNode;
-        const spinner = container.querySelector('.img-loading-spinner');
-        
-        if (spinner) {
-            spinner.style.opacity = '0';
-            setTimeout(() => {
-                if (spinner.parentNode === container) {
-                    container.removeChild(spinner);
-                }
-            }, 300);
-        }
-    }
-    
-    // Em caso de erro no carregamento
-    function imageError(img) {
-        const container = img.parentNode;
-        const spinner = container.querySelector('.img-loading-spinner');
-        
-        if (spinner) {
-            spinner.innerHTML = 'Erro ao carregar';
-            spinner.style.background = '#ffebee';
-            spinner.style.color = '#c62828';
-        }
-    }
-    
-    // Inicializar
-    processImages();
-});
     </script>
 </body>
 </html>
