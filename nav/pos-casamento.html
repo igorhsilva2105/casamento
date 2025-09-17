@@ -731,7 +731,7 @@
             <h2 class="section-title">Nossa História</h2>
             <div class="story-content">
                 <div class="story-text">
-                    <p>Nos conhecemos na escola, onde nossos caminhos se cruzaram pela primeira vez. Desde o primeiro momento, senti que ela era alguém muito especial, embora na época não pudesse imaginar o quanto essa pessoa iria se tornar importante na minha vida. Ao longo do tempo, enfrentamos desencontros e a distância, mas o destino sempre pareceu insistir em nos unir novamente, fortalecendo nossa conexão a cada reencontro. Com o passar dos anos, construímos uma relação sólida e autêntica, baseada em conversas profundas, confiança mútua e aprendizado contínuo um com o outro. E agora, após tudo o que passamos juntos, demos o próximo passo, compartilhando nossos sonhos, enfrentando desafios e celebrando alegrias lado a lado. Com esperança e amor no coração, seguimos juntos, cientes de que nossa história ainda tem muitos capítulos felizes pela frente.</p>
+                    <p>Nos conhecemos na escola, onde nossos caminhos se cruzaram pela primeira vez. Desde o primeiro momento, senti que ela era alguém muito especial, embora na época não pudesse imaginar o quanto essa pessoa iria se tornar importante na minha vida. Ao longo do tempo, enfrentamos desencontros e a distância, mais o destino sempre pareceu insistir em nos unir novamente, fortalecendo nossa conexão a cada reencontro. Com o passar dos anos, construímos uma relação sólida e autêntica, baseada em conversas profundas, confiança mútua e aprendizado contínuo um com o outro. E agora, após tudo o que passamos juntos, demos o próximo passo, compartilhando nossos sonhos, enfrentando desafios e celebrando alegrias lado a lado. Com esperança e amor no coração, seguimos juntos, cientes de que nossa história ainda tem muitos capítulos felizes pela frente.</p>
                 </div>
                 <div class="story-image">
                     <img src="https://placehold.co/600x400?text=Letícia+&+Igor" alt="Foto do casal">
@@ -974,24 +974,26 @@
     </footer>
 
     <script>
+        // Função para embaralhar array (Fisher-Yates)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         // Função para gerar números aleatórios nas fotos e atualizar o src
         function generatePhotoNumbers() {
-            // Defina o número máximo de fotos disponíveis
-            const totalPhotos = 5; // Você pode alterar este valor conforme necessário
-            
             const galleryItems = document.querySelectorAll('.gallery-item');
+            const totalPhotos = galleryItems.length;
             
-            // Gerar números únicos para cada foto
-            const usedNumbers = new Set();
+            // Criar array com números sequenciais e embaralhar
+            const numbers = Array.from({length: totalPhotos}, (_, i) => i + 1);
+            const shuffledNumbers = shuffleArray([...numbers]);
             
-            galleryItems.forEach(item => {
-                let randomNumber;
-                // Garantir que o número seja único
-                do {
-                    randomNumber = Math.floor(Math.random() * totalPhotos) + 1;
-                } while (usedNumbers.has(randomNumber));
-                
-                usedNumbers.add(randomNumber);
+            galleryItems.forEach((item, index) => {
+                const randomNumber = shuffledNumbers[index];
                 
                 // Atualizar o número exibido
                 const numberElement = item.querySelector('.photo-number');
@@ -1016,8 +1018,8 @@
             let currentIndex = 0;
             let autoPlayInterval;
             let isPlaying = true;
-            const slidesPerView = getSlidesPerView();
-            const slideWidth = 100 / slidesPerView;
+            let slidesPerView = getSlidesPerView();
+            let slideWidth = 100 / slidesPerView;
             
             // Iniciar autoplay
             startAutoPlay();
@@ -1059,7 +1061,7 @@
                 playPauseIcon.classList.add('fa-play');
             }
             
-            // Alternar entre play và pause
+            // Alternar entre play e pause
             function togglePlayPause() {
                 if (isPlaying) {
                     pauseAutoPlay();
@@ -1084,6 +1086,8 @@
             window.addEventListener('resize', () => {
                 const newSlidesPerView = getSlidesPerView();
                 if (newSlidesPerView !== slidesPerView) {
+                    slidesPerView = newSlidesPerView;
+                    slideWidth = 100 / slidesPerView;
                     currentIndex = 0;
                     updateCarousel();
                 }
