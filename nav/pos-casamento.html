@@ -50,7 +50,7 @@
         
         /* Header */
         header {
-            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('../img/casaamento.png') no-repeat 45% center/cover;
+            background: linear-gradient(rgba(60, 47, 47, 0.7), rgba(60, 47, 47, 0.7)), url('https://placehold.co/1200x800?text=Letícia+&+Igor') no-repeat 45% center/cover;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -355,15 +355,29 @@
             color: var(--accent);
         }
         
-        /* Presentes */
+        /* Presentes - CARROSSEL AUTOMÁTICO */
         .gifts {
             background-color: white;
+            position: relative;
+            overflow: hidden;
         }
         
-        .gifts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .gifts-carousel {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .gifts-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .gift-slide {
+            flex: 0 0 calc(100% / 4);
+            padding: 0 10px;
+            box-sizing: border-box;
         }
         
         .gift-card {
@@ -372,6 +386,7 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            height: 100%;
         }
         
         .gift-card:hover {
@@ -397,16 +412,42 @@
             font-weight: bold;
             margin-bottom: 0.5rem;
             color: var(--secondary);
+            font-size: 1rem;
+            min-height: 40px;
         }
         
         .gift-giver {
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
+            color: var(--accent);
         }
         
         .gift-status {
             font-size: 0.9rem;
             color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .play-pause-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            margin: 0 auto;
+            margin-top: 1.5rem;
+        }
+        
+        .play-pause-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
         }
         
         /* Thank You Section */
@@ -477,6 +518,12 @@
         }
         
         /* Responsividade */
+        @media (max-width: 1024px) {
+            .gift-slide {
+                flex: 0 0 calc(100% / 3);
+            }
+        }
+        
         @media (max-width: 768px) {
             .couple-names {
                 font-size: 3rem;
@@ -502,12 +549,16 @@
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
             
-            .items-container, .gifts-container {
+            .items-container {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
             
             .event-banner {
                 height: 200px;
+            }
+            
+            .gift-slide {
+                flex: 0 0 calc(100% / 2);
             }
         }
         
@@ -528,14 +579,19 @@
                 font-size: 1rem;
             }
             
-            .items-container, .gifts-container {
+            .items-container {
                 grid-template-columns: 1fr;
             }
             
             .event-banner {
                 height: 150px;
             }
+            
+            .gift-slide {
+                flex: 0 0 100%;
+            }
         }
+        
         /* ============================================= */
         /* ESTILO PARA ITENS RECUPERADOS */
         /* ============================================= */
@@ -628,7 +684,7 @@
             display: block;
             width: 90%;
             padding: 0.8rem;
-            background: linear-gradient(to right, var(--recovered-light), #c8e6c9);
+            background: linear-gradient(to right, #e8f5e9, #c8e6c9);
             color: #2e7d32;
             border: 1px solid #a5d6a7;
             border-radius: 5px;
@@ -678,7 +734,7 @@
                     <p>Nos conhecemos na escola, onde nossos caminhos se cruzaram pela primeira vez. Desde o primeiro momento, senti que ela era alguém muito especial, embora na época não pudesse imaginar o quanto essa pessoa iria se tornar importante na minha vida. Ao longo do tempo, enfrentamos desencontros e a distância, mas o destino sempre pareceu insistir em nos unir novamente, fortalecendo nossa conexão a cada reencontro. Com o passar dos anos, construímos uma relação sólida e autêntica, baseada em conversas profundas, confiança mútua e aprendizado contínuo um com o outro. E agora, após tudo o que passamos juntos, demos o próximo passo, compartilhando nossos sonhos, enfrentando desafios e celebrando alegrias lado a lado. Com esperança e amor no coração, seguimos juntos, cientes de que nossa história ainda tem muitos capítulos felizes pela frente.</p>
                 </div>
                 <div class="story-image">
-                    <img src="../img/us.jpg" alt="Foto do casal">
+                    <img src="https://placehold.co/600x400?text=Letícia+&+Igor" alt="Foto do casal">
                 </div>
             </div>
         </div>
@@ -729,18 +785,18 @@
             <div class="items-container">
                 <div class="item-card">
                     <div class="item-image">
-                        <img src="../img/touca.jpg" alt="Item esquecido 1">
+                        <img src="https://placehold.co/300x200?text=Touca" alt="Touca">
                     </div>
                     <div class="item-info">
                         <div class="item-name">Touca</div>
-                        <div class="item-description">Touca media da marca Wild, deixado em uma das mesas próximas a picina.</div>
+                        <div class="item-description">Touca media da marca Wild, deixado em uma das mesas próximas a piscina.</div>
                         <div class="item-contact">Entrar em contato: (12) 99227-5443</div>
                     </div>
                 </div>
                 
                 <div class="item-card">
                     <div class="item-image">
-                        <img src="../img/gloss.jpg" alt="Item esquecido 2">
+                        <img src="https://placehold.co/300x200?text=Gloss+Rosa" alt="Gloss Rosa">
                     </div>
                     <div class="item-info">
                         <div class="item-name">Gloss Rosa</div>
@@ -751,7 +807,7 @@
                 
                 <div class="item-card">
                     <div class="item-image">
-                        <img src="../img/carregador.jpg" alt="Item esquecido 3">
+                        <img src="https://placehold.co/300x200?text=Carregador" alt="Carregador">
                     </div>
                     <div class="item-info">
                         <div class="item-name">Carregador preto</div>
@@ -771,59 +827,171 @@
             <div class="event-banner">
                 <img src="https://placehold.co/1200x300?text=Banner+do+Evento" alt="Banner do evento">
             </div>
+            
+            <div class="events-container">
+                <!-- Cerimônia -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="https://diocesedetaubate.org.br/wp-content/uploads/2013/05/fachada-saopiox.jpg" alt="Local da cerimônia">
+                    </div>
+                    <div class="event-info">
+                        <h3 class="event-title">Cerimônia</h3>
+                        <div class="event-time">
+                            <i class="fas fa-clock event-icon"></i>
+                            <span>19:30 horas</span>
+                        </div>
+                        <div class="event-address">
+                            <i class="fas fa-map-marker-alt event-icon"></i>
+                            <span>Paróquia São Pio X - Igreja Matriz de São Benedito<br>R. Ten. Mesquita, 285 - Vila Pantaleao, Caçapava - SP, 12280-048</span>
+                        </div>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.069335930119!2d-45.71038432392781!3d-23.094557544610243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc51739fd171ab%3A0xa0488dee36776383!2sPar%C3%B3quia%20S%C3%A3o%20Pio%20X%20-%20Igreja%20Matriz%20de%20S%C3%A3o%20Benedito!5e0!3m2!1spt-BR!2sbr!4v1753198557151!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recepção -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="https://placehold.co/600x400?text=Chácara+Recanto+da+Serra" alt="Local da recepção">
+                    </div>
+                    <div class="event-info">
+                        <h3 class="event-title">Recepção</h3>
+                        <div class="event-time">
+                            <i class="fas fa-clock event-icon"></i>
+                            <span>21:00 horas</span>
+                        </div>
+                        <div class="event-address">
+                            <i class="fas fa-map-marker-alt event-icon"></i>
+                            <span>Rua Mario Fouler - Caçapava (Chácara Recanto da Serra)</span>
+                        </div>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.7356965334307!2d-45.627855499999995!3d-23.143334199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc55ac3b163197%3A0x27c466e122f4d0ee!2sRecanto%20da%20Serra!5e0!3m2!1spt-BR!2sbr!4v1753198685077!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Presentes Comprados -->
+    <!-- Presentes Comprados - CARROSSEL AUTOMÁTICO -->
     <section class="gifts">
         <div class="container">
             <h2 class="section-title">Presentes Comprados</h2>
             <p style="text-align: center; margin-bottom: 2rem;">Agradecemos imensamente por todos os presentes! Cada um tem um significado especial para nós.</p>
             
-            <div class="gifts-container">
-                <div class="gift-card">
-                    <div class="gift-image">
-                        <img src="https://placehold.co/300x200?text=Jogo+de+Panelas" alt="Presente 1">
+            <div class="gifts-carousel">
+                <div class="gifts-track" id="gifts-track">
+                    <!-- Itens do carrossel - você pode adicionar quantos quiser -->
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Jogo+de+Panelas" alt="Jogo de Panelas">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Jogo de Panelas</div>
+                                <div class="gift-giver">De: Maria e João</div>
+                                <div class="gift-status">Entregue</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="gift-info">
-                        <div class="gift-name">Jogo de Panelas</div>
-                        <div class="gift-giver">De: Maria e João</div>
-                        <div class="gift-status">Entregue</div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Liquidificador" alt="Liquidificador">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Liquidificador</div>
+                                <div class="gift-giver">De: Ana e Carlos</div>
+                                <div class="gift-status">Entregue</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Cafeteira" alt="Cafeteira">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Cafeteira</div>
+                                <div class="gift-giver">De: Pedro e Marta</div>
+                                <div class="gift-status">Aguardando entrega</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Jogo+de+Toalhas" alt="Jogo de Toalhas">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Jogo de Toalhas</div>
+                                <div class="gift-giver">De: Paulo e Lucia</div>
+                                <div class="gift-status">Entregue</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Jogo+de+Cama" alt="Jogo de Cama">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Jogo de Cama Queen</div>
+                                <div class="gift-giver">De: Carlos e Fernanda</div>
+                                <div class="gift-status">Entregue</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Air+Fryer" alt="Air Fryer">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Fritadeira Elétrica</div>
+                                <div class="gift-giver">De: Roberto e Sandra</div>
+                                <div class="gift-status">Aguardando entrega</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Jantar+Romântico" alt="Jantar Romântico">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Vale-Jantar</div>
+                                <div class="gift-giver">De: Amigos do Trabalho</div>
+                                <div class="gift-status">Disponível</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-slide">
+                        <div class="gift-card">
+                            <div class="gift-image">
+                                <img src="https://placehold.co/300x200?text=Smart+TV" alt="Smart TV">
+                            </div>
+                            <div class="gift-info">
+                                <div class="gift-name">Smart TV 43"</div>
+                                <div class="gift-giver">De: Familiares</div>
+                                <div class="gift-status">Entregue</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="gift-card">
-                    <div class="gift-image">
-                        <img src="https://placehold.co/300x200?text=Liquidificador" alt="Presente 2">
-                    </div>
-                    <div class="gift-info">
-                        <div class="gift-name">Liquidificador</div>
-                        <div class="gift-giver">De: Ana e Carlos</div>
-                        <div class="gift-status">Entregue</div>
-                    </div>
-                </div>
-                
-                <div class="gift-card">
-                    <div class="gift-image">
-                        <img src="https://placehold.co/300x200?text=Cafeteira" alt="Presente 3">
-                    </div>
-                    <div class="gift-info">
-                        <div class="gift-name">Cafeteira</div>
-                        <div class="gift-giver">De: Pedro e Marta</div>
-                        <div class="gift-status">Aguardando entrega</div>
-                    </div>
-                </div>
-                
-                <div class="gift-card">
-                    <div class="gift-image">
-                        <img src="https://placehold.co/300x200?text=Jogo+de+Toalhas" alt="Presente 4">
-                    </div>
-                    <div class="gift-info">
-                        <div class="gift-name">Jogo de Toalhas</div>
-                        <div class="gift-giver">De: Paulo e Lucia</div>
-                        <div class="gift-status">Entregue</div>
-                    </div>
-                </div>
+                <!-- Botão de Play/Pause -->
+                <button class="play-pause-btn" id="play-pause-btn">
+                    <i class="fas fa-pause"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -846,7 +1014,6 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-
             <p class="copyright" style="text-align:center;">© 2025 Letícia & Igor. Todos os direitos reservados.</p>
         </div>
     </footer>
@@ -884,59 +1051,98 @@
             });
         }
         
-        // Executa a função quando a página carregar
-        window.onload = generatePhotoNumbers;
-    </script>
-        <script>
-        function markAsRecovered(itemId) {
-            const item = document.getElementById(itemId);
-            item.classList.add('item-recovered');
+        // Código para o carrossel de presentes
+        function initGiftsCarousel() {
+            const track = document.getElementById('gifts-track');
+            const slides = document.querySelectorAll('.gift-slide');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const playPauseIcon = playPauseBtn.querySelector('i');
             
-            // Remover o botão após clicar
-            const button = item.querySelector('.recover-button');
-            button.style.display = 'none';
+            let currentIndex = 0;
+            let autoPlayInterval;
+            let isPlaying = true;
+            const slidesPerView = getSlidesPerView();
+            const slideWidth = 100 / slidesPerView;
             
-            // Adicionar efeito de confetes (opcional)
-            createConfettiEffect(item);
+            // Iniciar autoplay
+            startAutoPlay();
+            
+            // Atualizar a exibição com base no tamanho da tela
+            function getSlidesPerView() {
+                if (window.innerWidth < 480) return 1;
+                if (window.innerWidth < 768) return 2;
+                if (window.innerWidth < 1024) return 3;
+                return 4;
+            }
+            
+            // Atualizar o carrossel
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
+            }
+            
+            // Avançar para o próximo slide
+            function nextSlide() {
+                const maxIndex = Math.max(0, slides.length - slidesPerView);
+                currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
+                updateCarousel();
+            }
+            
+            // Iniciar autoplay
+            function startAutoPlay() {
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                autoPlayInterval = setInterval(nextSlide, 3000); // Muda a cada 3 segundos
+                isPlaying = true;
+                playPauseIcon.classList.remove('fa-play');
+                playPauseIcon.classList.add('fa-pause');
+            }
+            
+            // Pausar autoplay
+            function pauseAutoPlay() {
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                isPlaying = false;
+                playPauseIcon.classList.remove('fa-pause');
+                playPauseIcon.classList.add('fa-play');
+            }
+            
+            // Alternar entre play và pause
+            function togglePlayPause() {
+                if (isPlaying) {
+                    pauseAutoPlay();
+                } else {
+                    startAutoPlay();
+                }
+            }
+            
+            // Event listener para o botão de play/pause
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            
+            // Pausar autoplay quando o mouse estiver sobre o carrossel
+            track.addEventListener('mouseenter', pauseAutoPlay);
+            
+            // Retomar autoplay quando o mouse sair do carrossel
+            track.addEventListener('mouseleave', () => {
+                if (!isPlaying) return;
+                startAutoPlay();
+            });
+            
+            // Redimensionamento da janela
+            window.addEventListener('resize', () => {
+                const newSlidesPerView = getSlidesPerView();
+                if (newSlidesPerView !== slidesPerView) {
+                    currentIndex = 0;
+                    updateCarousel();
+                }
+            });
+            
+            // Inicializar o carrossel
+            updateCarousel();
         }
         
-        function createConfettiEffect(element) {
-            // Criar elementos de confete
-            for (let i = 0; i < 30; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.position = 'absolute';
-                confetti.style.width = '8px';
-                confetti.style.height = '8px';
-                confetti.style.background = ['#4caf50', '#81c784', '#a5d6a7'][Math.floor(Math.random() * 3)];
-                confetti.style.borderRadius = '50%';
-                confetti.style.zIndex = '100';
-                
-                // Posicionar aleatoriamente
-                const rect = element.getBoundingClientRect();
-                const x = Math.random() * rect.width;
-                const y = -10;
-                
-                confetti.style.left = `${x}px`;
-                confetti.style.top = `${y}px`;
-                
-                element.style.position = 'relative';
-                element.appendChild(confetti);
-                
-                // Animação
-                const animation = confetti.animate([
-                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-                    { transform: `translateY(${rect.height + 10}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                ], {
-                    duration: 1000 + Math.random() * 1000,
-                    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
-                });
-                
-                // Remover após a animação
-                animation.onfinish = () => {
-                    confetti.remove();
-                };
-            }
-        }
+        // Executar funções quando a página carregar
+        window.onload = function() {
+            generatePhotoNumbers();
+            initGiftsCarousel();
+        };
     </script>
 </body>
 </html>
