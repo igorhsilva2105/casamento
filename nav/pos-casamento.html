@@ -1042,14 +1042,23 @@
         // Função para gerar números aleatórios nas fotos e atualizar o src
         function generatePhotoNumbers() {
             const galleryItems = document.querySelectorAll('.gallery-item');
-            const totalPhotos = galleryItems.length;
+            const totalGalleryItems = galleryItems.length;
             
-            // Criar array com números sequenciais e embaralhar
-            const numbers = Array.from({length: totalPhotos}, (_, i) => i + 1);
+            // DEFINA AQUI O NÚMERO MÁXIMO DE FOTOS DISPONÍVEIS
+            // Altere este valor para o número total de fotos que você tem
+            const maxPhotoNumber = 16;
+            
+            // Criar array com números sequenciais de 1 até maxPhotoNumber
+            const numbers = Array.from({length: maxPhotoNumber}, (_, i) => i + 1);
+            
+            // Embaralhar o array
             const shuffledNumbers = shuffleArray([...numbers]);
             
+            // Pegar apenas os primeiros 'totalGalleryItems' números do array embaralhado
+            const selectedNumbers = shuffledNumbers.slice(0, totalGalleryItems);
+            
             galleryItems.forEach((item, index) => {
-                const randomNumber = shuffledNumbers[index];
+                const randomNumber = selectedNumbers[index];
                 
                 // Atualizar o número exibido
                 const numberElement = item.querySelector('.photo-number');
