@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Fotos | Letícia & Igor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d4b996;
+            --secondary: #8c6d46;
+            --accent: #a2836e;
+            --light: #f8f3ed;
+            --dark: #3c2f2f;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(rgba(60, 47, 47, 0.9), rgba(60, 47, 47, 0.9)), url('../img/casaamento.png') no-repeat 45% center/cover;
+            padding: 2rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        
+        .back-button:hover {
+            background: var(--secondary);
+        }
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .photo-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 1000px;
+            border-radius: 10px;
+            animation: modalFade 0.3s;
+        }
+        
+        @keyframes modalFade {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--dark);
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-body {
+                flex-direction: row;
+            }
+        }
+        
+        .modal-image {
+            flex: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .modal-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .modal-info {
+            flex: 1;
+        }
+        
+        .info-item {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            color: var(--dark);
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .tag {
+            background: var(--light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .action-button:hover {
+            background: var(--secondary);
+        }
+        
+        .action-button.share {
+            background: var(--accent);
+        }
+        
+        .share-options {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+        }
+        
+        .share-options.show {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .share-option {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .share-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .share-option.facebook {
+            background: #3b5998;
+            color: white;
+        }
+        
+        .share-option.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        
+        .share-option.twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+        
+        .share-option.pinterest {
+            background: #BD081C;
+            color: white;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Galeria de Fotos</h1>
+            <p>Reviva os melhores momentos do nosso casamento</p>
+            <a href="pos-casamento.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Voltar para a página principal
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="gallery-grid" id="gallery-grid">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para detalhes da foto -->
+    <div class="modal" id="photoModal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <div class="modal-info">
+                    <h2 id="photoTitle"></h2>
+                    <div class="info-item" id="photographerItem">
+                        <span class="info-label">Fotógrafo</span>
+                        <span class="info-value" id="photographer"></span>
+                    </div>
+                    <div class="info-item" id="momentItem">
+                        <span class="info-label">Momento</span>
+                        <span class="info-value" id="moment"></span>
+                    </div>
+                    <div class="info-item" id="tagsItem">
+                        <span class="info-label">Tags</span>
+                        <div class="tags" id="tags"></div>
+                    </div>
+                    <div class="info-item" id="photoIdItem">
+                        <span class="info-label">ID da Foto</span>
+                        <span class="info-value" id="photoId"></span>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="#" class="action-button" id="downloadButton">
+                            <i class="fas fa-download"></i> Baixar
+                        </a>
+                        <button class="action-button share" id="shareButton">
+                            <i class="fas fa-share-alt"></i> Compartilhar
+                        </button>
+                    </div>
+                    <div class="share-options" id="shareOptions">
+                        <a href="#" class="share-option facebook" id="shareFacebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="share-option whatsapp" id="shareWhatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="share-option twitter" id="shareTwitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="share-option pinterest" id="sharePinterest">
+                            <i class="fab fa-pinterest-p"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Letícia & Igor</p>
+            <p class="copyright">© 2025 Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dados das fotos - substitua com suas informações reais
+        const fotosData = [
+            {
+                id: "01",
+                nome: "O primeiro olhar",
+                src: "../img/Fotos/foto01.png",
+                fotografo: "Carlos Silva",
+                momento: "Cerimônia",
+                tags: ["cerimônia", "altar", "noivo", "noiva"]
+            },
+            {
+                id: "02",
+                nome: "Troca de alianças",
+                src: "../img/Fotos/foto02.png",
+                fotografo: "Carlos Silva",
+                momento: "Cerimônia",
+                tags: ["alianças", "casamento", "união"]
+            },
+            {
+                id: "03",
+                nome: "Beijo nupcial",
+                src: "../img/Fotos/foto03.png",
+                fotografo: "Carlos Silva",
+                momento: "Cerimônia",
+                tags: ["beijo", "casal", "amor"]
+            },
+            {
+                id: "04",
+                nome: "Saída da igreja",
+                src: "../img/Fotos/foto04.png",
+                fotografo: "Ana Santos",
+                momento: "Pós-cerimônia",
+                tags: ["saída", "igreja", "arroz"]
+            },
+            {
+                id: "05",
+                nome: "Festa de recepção",
+                src: "../img/Fotos/foto05.png",
+                fotografo: "Ana Santos",
+                momento: "Recepção",
+                tags: ["festa", "comemoração", "dança"]
+            },
+            {
+                id: "06",
+                nome: "Primeira dança",
+                src: "../img/Fotos/foto06.png",
+                momento: "Recepção",
+                tags: ["dança", "casal", "romance"]
+            },
+            {
+                id: "07",
+                nome: "Bolo dos noivos",
+                src: "../img/Fotos/foto07.png",
+                fotografo: "Ana Santos",
+                momento: "Recepção",
+                tags: ["bolo", "doce", "tradição"]
+            },
+            {
+                id: "08",
+                nome: "Brinde dos noivos",
+                src: "../img/Fotos/foto08.png",
+                momento: "Recepção",
+                tags: ["brinde", "família", "amigos"]
+            },
+            {
+                id: "09",
+                nome: "Família unida",
+                src: "../img/Fotos/foto09.png",
+                fotografo: "Carlos Silva",
+                tags: ["família", "parentes", "união"]
+            },
+            {
+                id: "10",
+                nome: "Amigos para sempre",
+                src: "../img/Fotos/foto10.png",
+                momento: "Recepção",
+                tags: ["amigos", "diversão", "festa"]
+            },
+            {
+                id: "11",
+                nome: "Lua de mel",
+                src: "../img/Fotos/foto11.png",
+                fotografo: "Carlos Silva",
+                momento: "Saída",
+                tags: ["saída", "lua de mel", "viagem"]
+            },
+            {
+                id: "12",
+                nome: "Detalhe do vestido",
+                src: "../img/Fotos/foto12.png",
+                tags: ["vestido", "detalhe", "noiva"]
+            },
+            {
+                id: "13",
+                nome: "Momentos divertidos",
+                src: "../img/Fotos/foto13.png",
+                momento: "Recepção",
+                tags: ["diversão", "amigos", "dança"]
+            },
+            {
+                id: "14",
+                nome: "Decoração do altar",
+                src: "../img/Fotos/foto14.png",
+                fotografo: "Ana Santos",
+                momento: "Cerimônia",
+                tags: ["decoração", "flores", "altar"]
+            },
+            {
+                id: "15",
+                nome: "Olhares de amor",
+                src: "../img/Fotos/foto15.png",
+                momento: "Cerimônia",
+                tags: ["olhares", "amor", "casal"]
+            },
+            {
+                id: "16",
+                nome: "Celebração com os amigos",
+                src: "../img/Fotos/foto16.png",
+                momento: "Recepção",
+                tags: ["amigos", "festa", "comemoração"]
+            }
+        ];
+
+        // Função para carregar a galeria
+        function loadGallery() {
+            const galleryGrid = document.getElementById('gallery-grid');
+            galleryGrid.innerHTML = '';
+            
+            fotosData.forEach(foto => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.dataset.id = foto.id;
+                
+                galleryItem.innerHTML = `
+                    <img src="${foto.src}" alt="${foto.nome}">
+                    <div class="photo-number">${foto.id}</div>
+                `;
+                
+                galleryItem.addEventListener('click', () => openModal(foto));
+                galleryGrid.appendChild(galleryItem);
+            });
+        }
+        
+        // Função para abrir o modal com os detalhes da foto
+        function openModal(foto) {
+            const modal = document.getElementById('photoModal');
+            const modalImage = document.getElementById('modalImage');
+            const photoTitle = document.getElementById('photoTitle');
+            const photographer = document.getElementById('photographer');
+            const moment = document.getElementById('moment');
+            const tags = document.getElementById('tags');
+            const photoId = document.getElementById('photoId');
+            const downloadButton = document.getElementById('downloadButton');
+            
+            // Preencher os dados da foto
+            modalImage.src = foto.src;
+            modalImage.alt = foto.nome;
+            photoTitle.textContent = foto.nome;
+            photoId.textContent = foto.id;
+            
+            // Mostrar/ocultar campos com base na disponibilidade dos dados
+            if (foto.fotografo) {
+                photographer.textContent = foto.fotografo;
+                document.getElementById('photographerItem').style.display = 'block';
+            } else {
+                document.getElementById('photographerItem').style.display = 'none';
+            }
+            
+            if (foto.momento) {
+                moment.textContent = foto.momento;
+                document.getElementById('momentItem').style.display = 'block';
+            } else {
+                document.getElementById('momentItem').style.display = 'none';
+            }
+            
+            if (foto.tags && foto.tags.length > 0) {
+                tags.innerHTML = '';
+                foto.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'tag';
+                    tagElement.textContent = `#${tag}`;
+                    tags.appendChild(tagElement);
+                });
+                document.getElementById('tagsItem').style.display = 'block';
+            } else {
+                document.getElementById('tagsItem').style.display = 'none';
+            }
+            
+            // Configurar o botão de download
+            downloadButton.href = foto.src;
+            downloadButton.download = `foto-casamento-${foto.id}.jpg`;
+            
+            // Configurar compartilhamento
+            setupSharing(foto);
+            
+            // Mostrar o modal
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Função para configurar os botões de compartilhamento
+        function setupSharing(foto) {
+            const shareOptions = document.getElementById('shareOptions');
+            const shareButton = document.getElementById('shareButton');
+            const pageUrl = encodeURIComponent(window.location.href);
+            const shareText = encodeURIComponent(`Confira esta foto do casamento de Letícia & Igor: ${foto.nome}`);
+            
+            // Configurar Facebook
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${shareText}`;
+            
+            // Configurar WhatsApp
+            document.getElementById('shareWhatsapp').href = `https://wa.me/?text=${shareText} ${pageUrl}`;
+            
+            // Configurar Twitter
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${pageUrl}`;
+            
+            // Configurar Pinterest
+            document.getElementById('sharePinterest').href = `https://pinterest.com/pin/create/button/?url=${pageUrl}&media=${foto.src}&description=${shareText}`;
+            
+            // Alternar a exibição das opções de compartilhamento
+            shareButton.addEventListener('click', () => {
+                shareOptions.classList.toggle('show');
+            });
+        }
+        
+        // Fechar o modal
+        function closeModal() {
+            const modal = document.getElementById('photoModal');
+            const shareOptions = document.getElementById('shareOptions');
+            
+            modal.classList.remove('show');
+            shareOptions.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            
+            // Pequeno delay para a transição de fade out
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+        
+        // Event listeners
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('photoModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Inicializar a galeria quando a página carregar
+        window.addEventListener('DOMContentLoaded', loadGallery);
+    </script>
+</body>
+</html>
