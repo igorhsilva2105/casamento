@@ -335,6 +335,39 @@
             padding-top: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        /* API Info */
+        .api-info {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .api-info h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .api-example {
+            background-color: var(--light);
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+
+        .copy-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -349,6 +382,30 @@
     </header>
 
     <main class="container">
+        <div class="api-info">
+            <h3>📸 Acesso Direto às Fotos</h3>
+            <p>Use estes links para acessar fotos específicas diretamente:</p>
+            <div class="api-example">
+                https://seusite.com/galeria-fotos.html#foto-01
+                <button class="copy-button" onclick="copyToClipboard('https://seusite.com/galeria-fotos.html#foto-01')">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="api-example">
+                https://seusite.com/galeria-fotos.html#foto-07
+                <button class="copy-button" onclick="copyToClipboard('https://seusite.com/galeria-fotos.html#foto-07')">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="api-example">
+                https://seusite.com/galeria-fotos.html#foto-15
+                <button class="copy-button" onclick="copyToClipboard('https://seusite.com/galeria-fotos.html#foto-15')">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <p><small>Substitua "seusite.com" pelo seu domínio real e o número pelo ID da foto desejada (01-16).</small></p>
+        </div>
+
         <div class="gallery-grid" id="gallery-grid">
             <div class="loading">
                 <div class="spinner"></div>
@@ -526,7 +583,7 @@
             },
             {
                 id: "15",
-                nome: "Olhares de amor",
+                nome: "Olhares de love",
                 src: "../img/Fotos/foto15.png",
                 momento: "Cerimônia",
                 tags: ["olhares", "amor", "casal"]
@@ -561,6 +618,25 @@
                 galleryItem.addEventListener('click', () => openModal(foto));
                 galleryGrid.appendChild(galleryItem);
             });
+
+            // Verificar se há um hash na URL para abrir uma foto específica
+            checkHash();
+        }
+        
+        // Função para verificar o hash na URL
+        function checkHash() {
+            const hash = window.location.hash;
+            if (hash) {
+                // Extrair o ID da foto do hash (formato #foto-01)
+                const match = hash.match(/#foto-(\d+)/);
+                if (match && match[1]) {
+                    const photoId = match[1].padStart(2, '0'); // Garantir dois dígitos
+                    const foto = fotosData.find(f => f.id === photoId);
+                    if (foto) {
+                        openModal(foto);
+                    }
+                }
+            }
         }
         
         // Função para abrir o modal com os detalhes da foto
@@ -574,6 +650,9 @@
             const tags = document.getElementById('tags');
             const photoId = document.getElementById('photoId');
             const downloadButton = document.getElementById('downloadButton');
+            
+            // Atualizar a URL com o hash da foto
+            window.location.hash = `foto-${foto.id}`;
             
             // Preencher os dados da foto
             modalImage.src = foto.src;
@@ -628,7 +707,7 @@
         function setupSharing(foto) {
             const shareOptions = document.getElementById('shareOptions');
             const shareButton = document.getElementById('shareButton');
-            const pageUrl = encodeURIComponent(window.location.href);
+            const pageUrl = encodeURIComponent(`${window.location.origin}${window.location.pathname}#foto-${foto.id}`);
             const shareText = encodeURIComponent(`Confira esta foto do casamento de Letícia & Igor: ${foto.nome}`);
             
             // Configurar Facebook
@@ -661,12 +740,24 @@
             modal.classList.remove('show');
             shareOptions.classList.remove('show');
             
+            // Remover o hash da URL
+            history.replaceState(null, null, ' ');
+            
             // Pequeno delay para a transição de fade out
             setTimeout(() => {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 currentModalPhoto = null;
             }, 300);
+        }
+        
+        // Função para copiar texto para a área de transferência
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copiado para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
         }
         
         // Event listeners
@@ -685,6 +776,9 @@
                 closeModal();
             }
         });
+        
+        // Verificar mudanças no hash da URL
+        window.addEventListener('hashchange', checkHash);
         
         // Inicializar a galeria quando a página carregar
         window.addEventListener('DOMContentLoaded', loadGallery);
