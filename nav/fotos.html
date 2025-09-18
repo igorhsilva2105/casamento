@@ -540,6 +540,9 @@
             }
         ];
 
+        // Variável para controlar o estado do modal
+        let currentModalPhoto = null;
+
         // Função para carregar a galeria
         function loadGallery() {
             const galleryGrid = document.getElementById('gallery-grid');
@@ -551,7 +554,7 @@
                 galleryItem.dataset.id = foto.id;
                 
                 galleryItem.innerHTML = `
-                    <img src="${foto.src}" alt="${foto.nome}">
+                    <img src="${foto.src}" alt="${foto.nome}" loading="lazy">
                     <div class="photo-number">${foto.id}</div>
                 `;
                 
@@ -562,6 +565,7 @@
         
         // Função para abrir o modal com os detalhes da foto
         function openModal(foto) {
+            currentModalPhoto = foto;
             const modal = document.getElementById('photoModal');
             const modalImage = document.getElementById('modalImage');
             const photoTitle = document.getElementById('photoTitle');
@@ -613,7 +617,10 @@
             setupSharing(foto);
             
             // Mostrar o modal
-            modal.classList.add('show');
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
             document.body.style.overflow = 'hidden';
         }
         
@@ -636,8 +643,12 @@
             // Configurar Pinterest
             document.getElementById('sharePinterest').href = `https://pinterest.com/pin/create/button/?url=${pageUrl}&media=${foto.src}&description=${shareText}`;
             
+            // Remover event listeners anteriores para evitar duplicação
+            shareButton.replaceWith(shareButton.cloneNode(true));
+            const newShareButton = document.getElementById('shareButton');
+            
             // Alternar a exibição das opções de compartilhamento
-            shareButton.addEventListener('click', () => {
+            newShareButton.addEventListener('click', () => {
                 shareOptions.classList.toggle('show');
             });
         }
@@ -649,11 +660,12 @@
             
             modal.classList.remove('show');
             shareOptions.classList.remove('show');
-            document.body.style.overflow = 'auto';
             
             // Pequeno delay para a transição de fade out
             setTimeout(() => {
                 modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                currentModalPhoto = null;
             }, 300);
         }
         
@@ -663,6 +675,13 @@
         window.addEventListener('click', (event) => {
             const modal = document.getElementById('photoModal');
             if (event.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Fechar modal com a tecla ESC
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
                 closeModal();
             }
         });
